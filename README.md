@@ -26,31 +26,31 @@ flowchart TD
 
     subgraph Agents ["🤖 Autonomous Specialized Agents"]
         direction TB
-        Planner["1. Strategic Planner\n(Taxonomy, Sub-Questions, Hypotheses)"]
-        Searcher["2. Literature Scout\n(WebSearchTool, Candidate Discovery)"]
-        Reader["3. Deep Reader\n(DocumentParserTool, Fact Grounding)"]
-        Critic["4. Epistemic Critic\n(ScoringRubricTool, Red Team Scrutiny)"]
-        Writer["5. Lead Synthesizer\n(Citation Synthesis & Co-Pilot Revisions)"]
+        Planner["1. Strategic Planner<br/>(Taxonomy, Sub-Questions, Hypotheses)"]
+        Searcher["2. Literature Scout<br/>(WebSearchTool, Candidate Discovery)"]
+        Reader["3. Deep Reader<br/>(DocumentParserTool, Fact Grounding)"]
+        Critic["4. Epistemic Critic<br/>(ScoringRubricTool, Red Team Scrutiny)"]
+        Writer["5. Lead Synthesizer<br/>(Citation Synthesis & Co-Pilot Revisions)"]
     end
 
     Controls --> Planner
-    Planner -->|Task Message| Bus
+    Planner -->|"Task Message"| Bus
     Bus --> Searcher
-    Searcher -->|Web Search Queries| WebSearchTool["🌐 WebSearchTool"]
-    Searcher -->|Result Message| Bus
+    Searcher -->|"Web Search Queries"| WebSearchTool["🌐 WebSearchTool"]
+    Searcher -->|"Result Message"| Bus
     Bus --> Reader
-    Reader -->|Document & BYOD Ingest| DocParser["📄 DocumentParserTool"]
+    Reader -->|"Document & BYOD Ingest"| DocParser["📄 DocumentParserTool"]
     DocParser --> SharedMem
-    Reader -->|Fact Payload| Bus
+    Reader -->|"Fact Payload"| Bus
     Bus --> Critic
-    Critic -->|Epistemic Evaluation| ScoringRubric["⚖️ ScoringRubricTool"]
+    Critic -->|"Epistemic Evaluation"| ScoringRubric["⚖️ ScoringRubricTool"]
     
     %% Adaptive Evaluator-Optimizer Feedback Loop
-    Critic -- "Score < 70 or Coverage Gaps (Max 2 Replan Loops)" -->|Revision/Replan Directive| Bus
-    Bus -.->|Feedback Trigger| Searcher
-    Bus -.->|Hypothesis Refinement| Planner
+    Critic -.->|"Score < 70 (Replan Directive)"| Bus
+    Bus -.->|"Feedback Trigger"| Searcher
+    Bus -.->|"Hypothesis Refinement"| Planner
 
-    Critic -- "Score >= 70 (Approved)" -->|Task Directive| Bus
+    Critic -->|"Score >= 70 (Approved)"| Bus
     Bus --> Writer
     Writer --> SharedMem
     Writer --> ReportView
