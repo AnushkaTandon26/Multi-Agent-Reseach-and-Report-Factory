@@ -3,85 +3,117 @@
 @tailwind utilities;
 
 :root {
-  --bg-canvas: #090D16;
-  --bg-surface: #0F172A;
-  --bg-card: #131E36;
-  --bg-card-hover: #182645;
-  --bg-elevated: #1B2B4E;
-  
-  --border-subtle: rgba(148, 163, 184, 0.12);
-  --border-medium: rgba(148, 163, 184, 0.22);
-  --border-strong: rgba(148, 163, 184, 0.35);
+  /* Light SaaS Design Tokens (Semrush-style clean palette) */
+  --bg-page: #FFFFFF;
+  --bg-secondary: #F1F2F4;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8F9FA;
+  --bg-elevated: #FFFFFF;
+  --bg-subtle: #F8FAFC;
 
-  --accent-primary: #3B82F6;
-  --accent-primary-hover: #2563EB;
-  --accent-subtle: rgba(59, 130, 246, 0.12);
-  
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  /* Borders & Dividers */
+  --border-card: #E5E7EB;
+  --border-subtle: #EEF0F2;
+  --border-strong: #D1D5DB;
+  --border-focus: #14181F;
 
-  --color-success: #10B981;
-  --color-success-subtle: rgba(16, 185, 129, 0.12);
-  --color-warn: #F59E0B;
-  --color-warn-subtle: rgba(245, 158, 11, 0.12);
-  --color-error: #EF4444;
-  --color-error-subtle: rgba(239, 68, 68, 0.12);
-  --color-info: #06B6D4;
-  --color-purple: #8B5CF6;
-  --color-purple-subtle: rgba(139, 92, 246, 0.12);
+  /* Typography / Text Colors */
+  --text-primary: #14181F;     /* Near black */
+  --text-secondary: #4B5563;   /* Slate/charcoal */
+  --text-muted: #6B7280;       /* Muted gray */
+  --text-subtle: #9CA3AF;      /* Subtle placeholder/meta */
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  /* Buttons & Dark Pills */
+  --btn-primary-bg: #151A17;   /* Near-black */
+  --btn-primary-text: #FFFFFF;
+  --btn-primary-hover: #262E29;
 
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
-  --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  /* Accent (Lavender) */
+  --accent-lavender-bg: #EAD5FF;
+  --accent-lavender-border: #D8B4FE;
+  --accent-lavender-icon: #7C3AED;
+  --accent-lavender-text: #581C87;
 
-  --background: var(--bg-canvas);
+  /* Links & Interactive */
+  --link-blue: #2563EB;
+  --link-blue-hover: #1D4ED8;
+
+  /* Semantic State Colors */
+  --color-success: #16A34A;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
+
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
+
+  --color-error: #DC2626;
+  --color-error-bg: #FEF2F2;
+  --color-error-border: #FECACA;
+
+  /* Agent Identity Colors (muted chips & card top-borders) */
+  --agent-planner: #6366F1;
+  --agent-scout: #06B6D4;
+  --agent-reader: #F59E0B;
+  --agent-critic: #EF4444;
+  --agent-synthesizer: #A855F7;
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-card: 16px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  /* Soft Shadows */
+  --shadow-card: 0 2px 12px rgba(16, 24, 40, 0.06);
+  --shadow-hover: 0 6px 20px rgba(16, 24, 40, 0.08);
+  --shadow-drawer: -4px 0 24px rgba(16, 24, 40, 0.08);
+  --shadow-dropdown: 0 10px 25px -5px rgba(16, 24, 40, 0.1), 0 8px 10px -6px rgba(16, 24, 40, 0.05);
+
+  --background: var(--bg-page);
   --foreground: var(--text-primary);
 }
 
 body {
   color: var(--text-primary);
-  background: var(--bg-canvas);
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-page);
+  font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
   letter-spacing: -0.01em;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
-/* Custom Scrollbar - Sleek Minimal */
+/* Crisp Clean Minimal Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: #F1F2F4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.4);
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.7);
+  background: #94A3B8;
 }
 
-/* Focus outline accessibility */
+/* Accessible visible focus states */
 *:focus-visible {
-  outline: 2px solid var(--accent-primary);
+  outline: 2px solid #14181F;
   outline-offset: 2px;
 }
 
 /* Citation jump highlight animation */
 @keyframes citation-highlight {
   0% {
-    background-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+    background-color: rgba(37, 99, 235, 0.25);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
   }
   100% {
     background-color: transparent;
@@ -104,36 +136,36 @@ body {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 37%, rgba(255, 255, 255, 0.04) 63%);
+  background: linear-gradient(90deg, #F1F2F4 25%, #E5E7EB 37%, #F1F2F4 63%);
   background-size: 400% 100%;
   animation: skeleton-shimmer 1.8s ease-in-out infinite;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
-/* Markdown Whitepaper Typography */
+/* Whitepaper Editorial Typography (Centered 760px column, 17px/1.7) */
 .prose-report {
-  color: #E2E8F0;
-  line-height: 1.8;
-  font-size: 0.975rem;
+  color: #1E293B;
+  line-height: 1.75;
+  font-size: 1.0625rem; /* 17px */
 }
 
 .prose-report h1 {
-  color: #FFFFFF;
-  font-size: 1.85rem;
+  color: #0F172A;
+  font-size: 2rem;
   font-weight: 800;
   margin-top: 1.75rem;
   margin-bottom: 1rem;
-  letter-spacing: -0.025em;
-  border-bottom: 1px solid var(--border-medium);
+  letter-spacing: -0.03em;
+  border-bottom: 1px solid #E2E8F0;
   padding-bottom: 0.75rem;
   line-height: 1.25;
 }
 
 .prose-report h2 {
-  color: #F8FAFC;
-  font-size: 1.35rem;
+  color: #0F172A;
+  font-size: 1.45rem;
   font-weight: 700;
-  margin-top: 2rem;
+  margin-top: 2.25rem;
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
@@ -142,54 +174,57 @@ body {
 }
 
 .prose-report h3 {
-  color: #E2E8F0;
-  font-size: 1.1rem;
+  color: #1E293B;
+  font-size: 1.2rem;
   font-weight: 600;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   margin-bottom: 0.5rem;
 }
 
 .prose-report p {
-  margin-top: 0.85rem;
-  margin-bottom: 0.85rem;
-  color: #CBD5E1;
+  margin-top: 0.95rem;
+  margin-bottom: 0.95rem;
+  color: #334155;
   text-align: justify;
 }
 
 .prose-report blockquote {
-  border-left: 3px solid #3B82F6;
-  background: rgba(59, 130, 246, 0.07);
-  padding: 0.85rem 1.15rem;
+  border-left: 3px solid #2563EB;
+  background: #F8FAFC;
+  padding: 0.85rem 1.25rem;
   margin: 1.35rem 0;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-style: italic;
-  color: #BFDBFE;
+  color: #1E293B;
+  border-top: 1px solid #EEF2F6;
+  border-right: 1px solid #EEF2F6;
+  border-bottom: 1px solid #EEF2F6;
 }
 
 .prose-report table {
   width: 100%;
-  margin: 1.5rem 0;
+  margin: 1.75rem 0;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.85rem;
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .prose-report th {
-  background: rgba(30, 41, 59, 0.9);
-  color: #F8FAFC;
+  background: #F8FAFC;
+  color: #0F172A;
   font-weight: 600;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border-medium);
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #E2E8F0;
   text-align: left;
 }
 
 .prose-report td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border-subtle);
-  color: #CBD5E1;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #F1F5F9;
+  color: #334155;
 }
 
 .prose-report tr:last-child td {
@@ -197,86 +232,87 @@ body {
 }
 
 .prose-report tr:nth-child(even) {
-  background: rgba(15, 23, 42, 0.45);
+  background: #F8FAFC/60;
 }
 
 .prose-report tr:hover {
-  background: rgba(30, 41, 59, 0.45);
+  background: #F1F5F9;
 }
 
 .prose-report ul {
   list-style-type: disc;
   padding-left: 1.5rem;
-  margin: 0.85rem 0;
+  margin: 0.95rem 0;
 }
 
 .prose-report ol {
   list-style-type: decimal;
   padding-left: 1.5rem;
-  margin: 0.85rem 0;
+  margin: 0.95rem 0;
 }
 
 .prose-report li {
-  margin-top: 0.35rem;
-  margin-bottom: 0.35rem;
-  color: #CBD5E1;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  color: #334155;
 }
 
 .prose-report code {
-  background: rgba(30, 41, 59, 0.85);
-  color: #93C5FD;
+  background: #F1F5F9;
+  color: #0F172A;
   padding: 0.2rem 0.45rem;
-  border-radius: 0.3rem;
+  border-radius: 0.35rem;
   font-size: 0.85em;
   font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  border: 1px solid #E2E8F0;
 }
 
 .prose-report pre {
-  background: #0B1120;
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
-  padding: 1.15rem;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
   overflow-x: auto;
-  margin: 1.35rem 0;
+  margin: 1.5rem 0;
 }
 
 .prose-report pre code {
   background: transparent;
   padding: 0;
-  color: #E2E8F0;
+  border: none;
+  color: #0F172A;
 }
 
 .prose-report a {
-  color: #60A5FA;
+  color: #2563EB;
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color 0.15s ease;
 }
 
 .prose-report a:hover {
-  color: #93C5FD;
+  color: #1D4ED8;
 }
 
 /* Footnote superscript citation badges */
 .citation-sup {
-  color: #60A5FA;
+  color: #2563EB;
   font-weight: 700;
-  font-size: 0.725rem;
+  font-size: 0.75rem;
   cursor: pointer;
-  padding: 0.1rem 0.3rem;
+  padding: 0.1rem 0.35rem;
   margin: 0 0.15rem;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
   border-radius: 4px;
   vertical-align: super;
   transition: all 0.15s ease;
 }
 
 .citation-sup:hover {
-  background: rgba(59, 130, 246, 0.25);
-  border-color: rgba(59, 130, 246, 0.6);
-  color: #93C5FD;
-  text-decoration: none;
+  background: #DBEAFE;
+  border-color: #93C5FD;
+  color: #1D4ED8;
 }
 
 /* Print Stylesheet for High-Quality Whitepaper Printing/PDF Export */
@@ -306,7 +342,7 @@ body {
   }
   .prose-report blockquote {
     background: #F8FAFC !important;
-    border-left-color: #3B82F6 !important;
+    border-left-color: #2563EB !important;
     color: #1E293B !important;
   }
 }

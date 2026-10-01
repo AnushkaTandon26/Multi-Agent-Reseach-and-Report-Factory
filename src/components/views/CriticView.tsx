@@ -23,27 +23,29 @@ interface CriticViewProps {
 
 export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-6 pb-20 w-full">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-rose-950/60 to-gray-900/60 p-5 rounded-2xl border border-rose-500/30 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-rose-600/20 border border-rose-500/40 flex items-center justify-center text-rose-400">
+      <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_12px_rgba(16,24,40,0.06)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#FEF2F2] border border-[#FECACA] flex items-center justify-center text-[#EF4444] shrink-0">
             <ShieldCheck className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-white">Stage 04: Epistemic Critic &amp; Loop Auditor</h2>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40">
-                {agent.status.toUpperCase()}
+              <h2 className="text-lg font-bold text-[#14181F]">
+                Stage 04: Epistemic Critic &amp; Loop Auditor
+              </h2>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-rose-50 text-rose-800 font-bold border border-rose-200">
+                {agent.status}
               </span>
               {critic?.redTeamAudit && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-950 text-red-300 border border-red-700/50 flex items-center gap-1">
-                  <Flame className="w-3 h-3 text-red-400" />
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1 font-bold">
+                  <Flame className="w-3 h-3 text-rose-600" />
                   Red Team Active
                 </span>
               )}
             </div>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-[#6B7280]">
               Evaluates source credibility, audits bias, triggers targeted search replanning loops, and performs post-draft verification.
             </p>
           </div>
@@ -51,8 +53,10 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
 
         {critic && (
           <div className="text-right">
-            <span className="text-[10px] font-mono text-gray-500 block uppercase">Reliability Index</span>
-            <span className="text-2xl font-mono font-extrabold text-rose-400">
+            <span className="text-[10px] font-mono text-[#9CA3AF] block uppercase">
+              Reliability Index
+            </span>
+            <span className="text-2xl font-mono font-extrabold text-[#EF4444]">
               {critic.overallCredibilityScore}/100
             </span>
           </div>
@@ -60,28 +64,30 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
       </div>
 
       {!critic ? (
-        <div className="bg-gray-900/50 rounded-2xl border border-gray-800 p-12 text-center text-gray-400 space-y-3">
-          <ShieldCheck className="w-12 h-12 mx-auto text-rose-500/40 animate-pulse" />
-          <h3 className="text-base font-bold text-gray-200">Epistemic Audit in Standby</h3>
-          <p className="text-xs text-gray-500 max-w-md mx-auto">
+        <div className="bg-white rounded-2xl border border-[#E5E7EB] p-16 text-center text-[#6B7280] space-y-3 shadow-xs">
+          <ShieldCheck className="w-12 h-12 mx-auto text-[#EF4444] animate-pulse" />
+          <h3 className="text-base font-bold text-[#14181F]">
+            Epistemic Audit in Standby
+          </h3>
+          <p className="text-xs text-[#6B7280] max-w-md mx-auto">
             The Critic Agent will analyze extracted findings, detect gaps, and audit the draft once the Reader stage completes.
           </p>
         </div>
       ) : (
         <div className="space-y-6">
           {/* Agentic Decision & Replanning Directive Callout */}
-          <div className="bg-gradient-to-r from-amber-950/40 via-gray-900 to-indigo-950/40 p-4 rounded-2xl border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-lg">
+          <div className="bg-white p-5 rounded-2xl border border-amber-300 shadow-[0_2px_8px_rgba(16,24,40,0.04)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
-                  <RefreshCw className="w-3 h-3 text-amber-400" />
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1 font-bold">
+                  <RefreshCw className="w-3 h-3 text-amber-600" />
                   Orchestration Feedback Status
                 </span>
-                <span className="text-xs font-bold text-gray-200">
-                  Decision: <span className="text-amber-300 uppercase">{critic.criticDecision || 'Approved'}</span>
+                <span className="text-xs font-bold text-[#14181F]">
+                  Decision: <span className="text-[#D97706] uppercase">{critic.criticDecision || 'Approved'}</span>
                 </span>
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[#4B5563]">
                 {critic.criticDecision === 'request_more_evidence'
                   ? 'Critic detected evidence gaps and triggered follow-up search directives to Searcher & Reader.'
                   : 'Evidence threshold satisfied; Critic cleared synthesis pass to Writer with specific epistemic constraints.'}
@@ -89,120 +95,78 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
             </div>
 
             {critic.followUpSearchQueries && critic.followUpSearchQueries.length > 0 && (
-              <div className="text-xs bg-gray-950/80 px-3 py-1.5 rounded-xl border border-amber-500/30 text-amber-200 shrink-0">
-                <span className="font-mono font-bold text-amber-400">{critic.followUpSearchQueries.length}</span> follow-up query vectors generated
+              <div className="text-xs bg-[#FFFBEB] px-3.5 py-1.5 rounded-full border border-amber-200 text-amber-900 font-semibold shrink-0">
+                <span className="font-mono font-bold text-amber-700">{critic.followUpSearchQueries.length}</span> follow-up queries dispatched
               </div>
             )}
           </div>
 
-          {/* Draft Report Audit Card (if available) */}
-          {critic.draftAudit && (
-            <div className="bg-gradient-to-r from-purple-950/40 via-gray-900 to-indigo-950/30 p-5 rounded-2xl border border-purple-500/40 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <PenTool className="w-5 h-5 text-purple-400" />
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                    Post-Draft Verification &amp; Anti-Hallucination Audit
-                  </h3>
-                </div>
-                <span className="text-xs font-mono font-bold bg-purple-900/40 text-purple-200 px-3 py-1 rounded-full border border-purple-500/40">
-                  Draft Score: {critic.draftAudit.score}/100 ({critic.draftAudit.approved ? 'APPROVED' : 'REVISION REQUESTED'})
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                <div className="bg-gray-950/70 p-3.5 rounded-xl border border-gray-800 space-y-1.5">
-                  <span className="text-gray-400 font-semibold block text-[11px] uppercase">Identified Draft Nuances:</span>
-                  <ul className="space-y-1 text-gray-300">
-                    {critic.draftAudit.issues?.map((issue, idx) => (
-                      <li key={idx} className="flex items-start gap-1.5">
-                        <span className="text-purple-400">•</span>
-                        <span>{issue}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-gray-950/70 p-3.5 rounded-xl border border-gray-800 space-y-1.5">
-                  <span className="text-indigo-400 font-semibold block text-[11px] uppercase">Writer Revision Directives:</span>
-                  <ul className="space-y-1 text-gray-300">
-                    {critic.draftAudit.revisionDirectives?.map((dir, idx) => (
-                      <li key={idx} className="flex items-start gap-1.5">
-                        <span className="text-indigo-400">➔</span>
-                        <span>{dir}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Adversarial Red Team Stress Test Section */}
           {critic.redTeamAudit && (
-            <div className="bg-gradient-to-r from-red-950/40 via-gray-900 to-red-950/20 p-5 rounded-2xl border border-red-700/40 space-y-4 shadow-xl">
-              <div className="flex items-center justify-between">
+            <div className="bg-white p-5 rounded-2xl border border-rose-300 shadow-[0_2px_12px_rgba(16,24,40,0.06)] space-y-4">
+              <div className="flex items-center justify-between border-b border-[#F1F2F4] pb-3">
                 <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5 text-red-400" />
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <Flame className="w-5 h-5 text-rose-600" />
+                  <h3 className="text-sm font-bold text-[#14181F] uppercase tracking-wider">
                     Adversarial Red Team Stress-Test Audit
                   </h3>
                 </div>
-                <span className="text-[10px] font-mono bg-red-900/40 text-red-200 px-2.5 py-0.5 rounded-full border border-red-700/50">
+                <span className="text-[10px] font-mono bg-rose-50 text-rose-800 px-2.5 py-0.5 rounded-full border border-rose-200 font-bold">
                   Hypothesis Deconstruction
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <div className="bg-gray-950/70 p-4 rounded-xl border border-red-900/40 space-y-2">
-                  <span className="text-[11px] font-bold text-red-400 flex items-center gap-1.5 uppercase">
+                <div className="bg-[#FEF2F2]/60 p-4 rounded-xl border border-rose-200 space-y-2">
+                  <span className="text-[11px] font-bold text-rose-700 flex items-center gap-1.5 uppercase">
                     <AlertTriangle className="w-3.5 h-3.5" /> Core Vulnerabilities
                   </span>
-                  <ul className="space-y-1.5 text-xs text-gray-300">
+                  <ul className="space-y-1.5 text-xs text-[#334155]">
                     {critic.redTeamAudit.vulnerabilitiesIdentified.map((v, i) => (
                       <li key={i} className="flex items-start gap-1.5">
-                        <span className="text-red-400">•</span>
+                        <span className="text-rose-500 font-bold">•</span>
                         <span>{v}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-gray-950/70 p-4 rounded-xl border border-red-900/40 space-y-2">
-                  <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5 uppercase">
+                <div className="bg-[#FFFBEB]/60 p-4 rounded-xl border border-amber-200 space-y-2">
+                  <span className="text-[11px] font-bold text-amber-800 flex items-center gap-1.5 uppercase">
                     <Shield className="w-3.5 h-3.5" /> Counter-Theses
                   </span>
-                  <ul className="space-y-1.5 text-xs text-gray-300">
+                  <ul className="space-y-1.5 text-xs text-[#334155]">
                     {critic.redTeamAudit.counterTheses.map((ct, i) => (
                       <li key={i} className="flex items-start gap-1.5">
-                        <span className="text-amber-400">•</span>
+                        <span className="text-amber-600 font-bold">•</span>
                         <span>{ct}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-gray-950/70 p-4 rounded-xl border border-red-900/40 space-y-2">
-                  <span className="text-[11px] font-bold text-rose-400 flex items-center gap-1.5 uppercase">
+                <div className="bg-[#FEF2F2]/60 p-4 rounded-xl border border-rose-200 space-y-2">
+                  <span className="text-[11px] font-bold text-rose-800 flex items-center gap-1.5 uppercase">
                     <Skull className="w-3.5 h-3.5" /> Worst-Case Scenarios
                   </span>
-                  <ul className="space-y-1.5 text-xs text-gray-300">
+                  <ul className="space-y-1.5 text-xs text-[#334155]">
                     {critic.redTeamAudit.worstCaseScenarios.map((w, i) => (
                       <li key={i} className="flex items-start gap-1.5">
-                        <span className="text-rose-400">•</span>
+                        <span className="text-rose-600 font-bold">•</span>
                         <span>{w}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-gray-950/70 p-4 rounded-xl border border-red-900/40 space-y-2">
-                  <span className="text-[11px] font-bold text-purple-400 flex items-center gap-1.5 uppercase">
+                <div className="bg-[#FAF5FF]/60 p-4 rounded-xl border border-purple-200 space-y-2">
+                  <span className="text-[11px] font-bold text-purple-800 flex items-center gap-1.5 uppercase">
                     <EyeOff className="w-3.5 h-3.5" /> Blindspots Flagged
                   </span>
-                  <ul className="space-y-1.5 text-xs text-gray-300">
+                  <ul className="space-y-1.5 text-xs text-[#334155]">
                     {critic.redTeamAudit.blindspotsFlagged.map((b, i) => (
                       <li key={i} className="flex items-start gap-1.5">
-                        <span className="text-purple-400">•</span>
+                        <span className="text-purple-600 font-bold">•</span>
                         <span>{b}</span>
                       </li>
                     ))}
@@ -216,48 +180,48 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
             {/* Left Column: Scorecards & Domain Matrix (6 cols) */}
             <div className="lg:col-span-6 space-y-5">
               {/* Reliability Summary Card */}
-              <div className="bg-gradient-to-br from-gray-900 via-rose-950/20 to-gray-900 p-5 rounded-2xl border border-rose-800/40 space-y-3">
+              <div className="bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_8px_rgba(16,24,40,0.04)] space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#EF4444] flex items-center gap-2">
                     <Shield className="w-4 h-4" /> Epistemic Credibility Rating
                   </span>
-                  <span className="text-xs font-mono text-gray-400">
-                    {critic.verifiedFactsCount} Verified Claims / {critic.totalSourcesEvaluated} Sources
+                  <span className="text-xs font-mono text-[#6B7280]">
+                    {critic.verifiedFactsCount} Claims / {critic.totalSourcesEvaluated} Sources
                   </span>
                 </div>
-                <div className="w-full bg-gray-950 rounded-full h-3 overflow-hidden border border-gray-800">
+                <div className="w-full bg-[#F1F2F4] rounded-full h-3 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-amber-500 to-rose-500 rounded-full transition-all duration-500"
+                    className="h-full bg-[#EF4444] rounded-full transition-all duration-500"
                     style={{ width: `${critic.overallCredibilityScore}%` }}
                   />
                 </div>
-                <p className="text-xs text-gray-400">
-                  Independent epistemological assessment confirms high statistical consistency across institutional baselines, with targeted guidance provided for forward-looking vendor projections.
+                <p className="text-xs text-[#6B7280]">
+                  Epistemological audit verifies domain authority and methodological consistency across external institutional baselines.
                 </p>
               </div>
 
               {/* Source Scorecards Table */}
-              <div className="bg-gray-900/70 p-5 rounded-2xl border border-gray-800 space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-300 block">
+              <div className="bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_8px_rgba(16,24,40,0.04)] space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#14181F] block">
                   Primary Domain Scorecards ({critic.sourceScorecards?.length})
                 </span>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
                     <thead>
-                      <tr className="border-b border-gray-800 text-gray-400 font-mono text-[11px]">
+                      <tr className="border-b border-[#E5E7EB] text-[#6B7280] font-mono text-[11px]">
                         <th className="pb-2">Domain</th>
                         <th className="pb-2">Authority</th>
                         <th className="pb-2">Bias Profile</th>
-                        <th className="pb-2 text-right">Credibility</th>
+                        <th className="pb-2 text-right">Score</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-800 text-gray-300">
+                    <tbody className="divide-y divide-[#E5E7EB] text-[#334155]">
                       {critic.sourceScorecards?.map((sc, i) => (
-                        <tr key={i} className="hover:bg-gray-800/40">
-                          <td className="py-2.5 font-mono text-indigo-300 font-semibold">{sc.domain}</td>
+                        <tr key={i} className="hover:bg-[#F8FAFC]">
+                          <td className="py-2.5 font-mono text-[#2563EB] font-semibold">{sc.domain}</td>
                           <td className="py-2.5">{sc.authorityLevel}</td>
-                          <td className="py-2.5 text-gray-400">{sc.biasRating}</td>
-                          <td className="py-2.5 text-right font-mono font-bold text-rose-400">
+                          <td className="py-2.5 text-[#6B7280]">{sc.biasRating}</td>
+                          <td className="py-2.5 text-right font-mono font-bold text-[#EF4444]">
                             {sc.credibilityScore}/100
                           </td>
                         </tr>
@@ -268,14 +232,17 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
               </div>
 
               {/* Methodology Notes */}
-              <div className="bg-gray-900/70 p-5 rounded-2xl border border-gray-800 space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2">
-                  <FileCheck className="w-4 h-4 text-emerald-400" /> Methodology &amp; Provenance Notes
+              <div className="bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_8px_rgba(16,24,40,0.04)] space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#14181F] flex items-center gap-2">
+                  <FileCheck className="w-4 h-4 text-[#16A34A]" /> Methodology &amp; Provenance Notes
                 </span>
                 <ul className="space-y-2">
                   {critic.methodologyNotes?.map((note, i) => (
-                    <li key={i} className="text-xs text-gray-400 flex items-start gap-2 bg-gray-950/60 p-2.5 rounded-xl border border-gray-800">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <li
+                      key={i}
+                      className="text-xs text-[#4B5563] flex items-start gap-2 bg-[#F8FAFC] p-3 rounded-xl border border-[#E5E7EB]"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-[#16A34A] shrink-0 mt-0.5" />
                       <span>{note}</span>
                     </li>
                   ))}
@@ -286,24 +253,29 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
             {/* Right Column: Flagged Nuances & Writer Directives (6 cols) */}
             <div className="lg:col-span-6 space-y-5">
               {/* Flagged Claims & Counter-Perspectives */}
-              <div className="bg-gray-900/70 p-5 rounded-2xl border border-gray-800 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
+              <div className="bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_8px_rgba(16,24,40,0.04)] space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D97706]">
                   <AlertTriangle className="w-4 h-4" />
                   Flagged Claims &amp; Risk Nuances ({critic.questionableClaims?.length})
                 </div>
                 <div className="space-y-3">
                   {critic.questionableClaims?.map((qc, i) => (
-                    <div key={i} className="bg-amber-950/20 p-4 rounded-xl border border-amber-900/40 space-y-2 text-xs">
+                    <div
+                      key={i}
+                      className="bg-[#FFFBEB] p-4 rounded-xl border border-amber-200 space-y-2 text-xs"
+                    >
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-gray-200">Claim Under Audit</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-800/40 uppercase">
+                        <span className="font-bold text-[#14181F]">Claim Under Audit</span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 uppercase font-semibold">
                           {qc.risk} Risk
                         </span>
                       </div>
-                      <p className="font-semibold text-gray-200">&quot;{qc.claim}&quot;</p>
-                      <p className="text-amber-300/90"><strong className="text-amber-400">Identified Issue:</strong> {qc.issue}</p>
-                      <p className="text-gray-400 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800 text-[11px]">
-                        <strong className="text-gray-300 block mb-0.5">Directives for Writer:</strong>
+                      <p className="font-semibold text-[#14181F]">&ldquo;{qc.claim}&rdquo;</p>
+                      <p className="text-[#D97706]">
+                        <strong className="text-amber-800">Issue:</strong> {qc.issue}
+                      </p>
+                      <p className="text-[#4B5563] bg-white p-2.5 rounded-lg border border-amber-200 text-[11px]">
+                        <strong className="text-[#14181F] block mb-0.5">Directives for Writer:</strong>
                         {qc.recommendation}
                       </p>
                     </div>
@@ -312,15 +284,18 @@ export const CriticView: React.FC<CriticViewProps> = ({ critic, agent }) => {
               </div>
 
               {/* Writer Synthesis Directives */}
-              <div className="bg-gray-900/70 p-5 rounded-2xl border border-gray-800 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-400">
+              <div className="bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_8px_rgba(16,24,40,0.04)] space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7C3AED]">
                   <CheckCircle2 className="w-4 h-4" />
                   Mandatory Directives for Writer Agent
                 </div>
                 <ul className="space-y-2">
                   {critic.synthesisGuidanceForWriter?.map((g, i) => (
-                    <li key={i} className="text-xs text-gray-300 flex items-start gap-2.5 bg-purple-950/20 p-3 rounded-xl border border-purple-900/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0 mt-1.5" />
+                    <li
+                      key={i}
+                      className="text-xs text-[#14181F] flex items-start gap-2.5 bg-[#FAF5FF] p-3 rounded-xl border border-purple-200"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#7C3AED] shrink-0 mt-1.5" />
                       <span>{g}</span>
                     </li>
                   ))}

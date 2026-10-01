@@ -17,11 +17,11 @@ export const DataVisualizer: React.FC<DataVisualizerProps> = ({
 
   // Benchmark metrics parsed or synthesized from facts
   const benchmarkItems = [
-    { label: 'Throughput Multiplier', value: 4.8, max: 6.5, unit: 'x Acceleration', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Cycle Duration Reduction', value: 67, max: 100, unit: '% Faster', color: 'from-emerald-500 to-teal-600' },
-    { label: 'Deterministic Failover', value: 99.4, max: 100, unit: '% Uptime', color: 'from-purple-500 to-pink-600' },
-    { label: 'Year-over-Year Cap Surge', value: 41.5, max: 100, unit: '% Growth', color: 'from-amber-500 to-orange-600' },
-    { label: 'Integration Overhead (TCO)', value: 28.5, max: 100, unit: '% Early Capex', color: 'from-rose-500 to-red-600' },
+    { label: 'Throughput Multiplier', value: 4.8, max: 6.5, unit: 'x Acceleration', color: 'bg-[#2563EB]' },
+    { label: 'Cycle Duration Reduction', value: 67, max: 100, unit: '% Faster', color: 'bg-[#16A34A]' },
+    { label: 'Deterministic Failover', value: 99.4, max: 100, unit: '% Uptime', color: 'bg-[#7C3AED]' },
+    { label: 'Year-over-Year Cap Surge', value: 41.5, max: 100, unit: '% Growth', color: 'bg-[#D97706]' },
+    { label: 'Integration Overhead (TCO)', value: 28.5, max: 100, unit: '% Early Capex', color: 'bg-[#DC2626]' },
   ];
 
   // Category counts
@@ -31,74 +31,77 @@ export const DataVisualizer: React.FC<DataVisualizerProps> = ({
   });
 
   return (
-    <div className="bg-gray-900/80 rounded-2xl border border-gray-800 p-5 space-y-4 shadow-xl">
+    <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 sm:p-6 space-y-4 shadow-[0_2px_12px_rgba(16,24,40,0.06)]">
       {/* Header & Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-950/80 border border-indigo-800/60 flex items-center justify-center text-indigo-400">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F1F2F4] pb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB]">
             <BarChart3 className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-              Autonomous Quantitative Visualizer
+            <h3 className="text-sm font-bold text-[#14181F]">
+              Quantitative Data Visualizer
             </h3>
-            <span className="text-[11px] text-gray-400 font-mono">
-              Empirical data charts extracted from {facts.length} verified evidence points
+            <span className="text-xs text-[#6B7280]">
+              Empirical metrics extracted from {facts.length} verified evidence records
             </span>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-gray-950 p-1 rounded-xl border border-gray-800 text-xs font-medium">
+        <div className="flex items-center gap-1 bg-[#F1F2F4] p-1 rounded-full text-xs font-semibold">
           <button
             onClick={() => setActiveChartTab('benchmarks')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
+            className={`px-3 py-1.5 rounded-full transition-all ${
               activeChartTab === 'benchmarks'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-white text-[#14181F] shadow-xs'
+                : 'text-[#6B7280] hover:text-[#14181F]'
             }`}
           >
-            📊 Benchmarks
+            Benchmarks
           </button>
           <button
             onClick={() => setActiveChartTab('domains')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
+            className={`px-3 py-1.5 rounded-full transition-all ${
               activeChartTab === 'domains'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-white text-[#14181F] shadow-xs'
+                : 'text-[#6B7280] hover:text-[#14181F]'
             }`}
           >
-            🛡️ Domain Authority
+            Domain Authority
           </button>
           <button
             onClick={() => setActiveChartTab('categories')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
+            className={`px-3 py-1.5 rounded-full transition-all ${
               activeChartTab === 'categories'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-white text-[#14181F] shadow-xs'
+                : 'text-[#6B7280] hover:text-[#14181F]'
             }`}
           >
-            🥧 Fact Distribution
+            Fact Distribution
           </button>
         </div>
       </div>
 
       {/* Chart View 1: Benchmarks */}
       {activeChartTab === 'benchmarks' && (
-        <div className="space-y-3 pt-2">
+        <div className="space-y-3 pt-1">
           {benchmarkItems.map((item, idx) => {
             const pct = Math.round((item.value / item.max) * 100);
             return (
-              <div key={idx} className="space-y-1.5 bg-gray-950/60 p-3 rounded-xl border border-gray-800/60">
+              <div
+                key={idx}
+                className="space-y-1.5 bg-[#F8FAFC] p-3.5 rounded-xl border border-[#E5E7EB]"
+              >
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="font-semibold text-gray-200">{item.label}</span>
-                  <span className="font-bold text-indigo-300">
+                  <span className="font-semibold text-[#14181F]">{item.label}</span>
+                  <span className="font-bold text-[#2563EB]">
                     {item.value} {item.unit}
                   </span>
                 </div>
-                <div className="w-full bg-gray-900 rounded-full h-2.5 overflow-hidden border border-gray-800">
+                <div className="w-full bg-[#E5E7EB] rounded-full h-2 overflow-hidden">
                   <div
-                    className={`h-full rounded-full bg-gradient-to-r ${item.color} transition-all duration-700`}
+                    className={`h-full rounded-full ${item.color} transition-all duration-500`}
                     style={{ width: `${Math.min(100, Math.max(15, pct))}%` }}
                   />
                 </div>
@@ -110,21 +113,26 @@ export const DataVisualizer: React.FC<DataVisualizerProps> = ({
 
       {/* Chart View 2: Domain Authority */}
       {activeChartTab === 'domains' && criticReview && (
-        <div className="space-y-3 pt-2">
+        <div className="space-y-3 pt-1">
           {criticReview.sourceScorecards?.map((sc, idx) => (
-            <div key={idx} className="space-y-1 bg-gray-950/60 p-3 rounded-xl border border-gray-800/60">
+            <div
+              key={idx}
+              className="space-y-1 bg-[#F8FAFC] p-3.5 rounded-xl border border-[#E5E7EB]"
+            >
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-gray-200">{sc.domain} ({sc.authorityLevel} Authority)</span>
-                <span className="text-rose-400 font-bold">{sc.credibilityScore}/100</span>
+                <span className="font-bold text-[#14181F]">
+                  {sc.domain} ({sc.authorityLevel} Authority)
+                </span>
+                <span className="text-[#DC2626] font-bold">{sc.credibilityScore}/100</span>
               </div>
-              <div className="w-full bg-gray-900 rounded-full h-2 overflow-hidden border border-gray-800">
+              <div className="w-full bg-[#E5E7EB] rounded-full h-2 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-700"
+                  className="h-full rounded-full bg-[#2563EB] transition-all duration-500"
                   style={{ width: `${sc.credibilityScore}%` }}
                 />
               </div>
-              <p className="text-[10px] text-gray-500 truncate pt-0.5">
-                Bias Rating: {sc.biasRating} · {sc.verdict}
+              <p className="text-[11px] text-[#6B7280] truncate pt-0.5">
+                Bias Rating: {sc.biasRating} • {sc.verdict}
               </p>
             </div>
           ))}
@@ -133,29 +141,29 @@ export const DataVisualizer: React.FC<DataVisualizerProps> = ({
 
       {/* Chart View 3: Fact Distribution */}
       {activeChartTab === 'categories' && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-1">
           {Object.entries(categoryCounts).map(([cat, count], idx) => {
             const categoryColors: Record<string, string> = {
-              statistic: 'border-emerald-500/40 bg-emerald-950/20 text-emerald-300',
-              finding: 'border-blue-500/40 bg-blue-950/20 text-blue-300',
-              expert_opinion: 'border-purple-500/40 bg-purple-950/20 text-purple-300',
-              counter_argument: 'border-rose-500/40 bg-rose-950/20 text-rose-300',
-              projection: 'border-amber-500/40 bg-amber-950/20 text-amber-300',
+              statistic: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+              finding: 'border-blue-200 bg-blue-50 text-blue-900',
+              expert_opinion: 'border-purple-200 bg-purple-50 text-purple-900',
+              counter_argument: 'border-rose-200 bg-rose-50 text-rose-900',
+              projection: 'border-amber-200 bg-amber-50 text-amber-900',
             };
 
             return (
               <div
                 key={idx}
                 className={`p-4 rounded-xl border flex flex-col justify-between space-y-1 ${
-                  categoryColors[cat] || 'bg-gray-950 border-gray-800 text-gray-200'
+                  categoryColors[cat] || 'bg-[#F8FAFC] border-[#E5E7EB] text-[#14181F]'
                 }`}
               >
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">
+                <span className="text-[11px] font-mono uppercase tracking-wider font-bold">
                   {cat}
                 </span>
                 <div className="flex items-baseline justify-between">
-                  <span className="text-2xl font-extrabold font-mono">{count}</span>
-                  <span className="text-[10px] text-gray-400 font-mono">
+                  <span className="text-2xl font-bold font-sans">{count}</span>
+                  <span className="text-xs text-[#6B7280] font-mono">
                     {Math.round((count / (facts.length || 1)) * 100)}%
                   </span>
                 </div>

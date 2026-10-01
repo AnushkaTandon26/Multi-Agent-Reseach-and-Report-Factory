@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Bookmark, X, Search, Trash2, ArrowRight, Clock, FileText, Download } from 'lucide-react';
+import { Bookmark, X, Search, Trash2, ArrowRight, Clock, FileText } from 'lucide-react';
 import { SavedResearchItem, FinalReport } from '../lib/types';
 
 interface ResearchLibraryModalProps {
@@ -34,7 +34,6 @@ export const ResearchLibraryModal: React.FC<ResearchLibraryModalProps> = ({
     }
   }, [isOpen]);
 
-  // Save current report if provided and not already saved
   const handleSaveCurrent = () => {
     if (!currentReport) return;
     const newItem: SavedResearchItem = {
@@ -71,39 +70,45 @@ export const ResearchLibraryModal: React.FC<ResearchLibraryModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-2xl bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-2xl space-y-4 text-gray-200">
-        <div className="flex items-center justify-between border-b border-gray-800 pb-3">
-          <div className="flex items-center gap-2">
-            <Bookmark className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-base font-bold text-white">
-              Research Archive &amp; Library
-            </h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="w-full max-w-2xl bg-white border border-[#E5E7EB] rounded-2xl p-6 shadow-2xl space-y-4 text-[#14181F]">
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3.5">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#2563EB]">
+              <Bookmark className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#14181F]">
+                Research Archive &amp; Library
+              </h3>
+              <p className="text-xs text-[#6B7280]">Saved research intelligence and whitepapers</p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#6B7280] hover:text-[#14181F] hover:bg-[#F1F2F4] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Toolbar & Search */}
-        <div className="flex items-center justify-between gap-3">
-          <div className="relative flex-1">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="relative w-full sm:flex-1">
+            <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search saved whitepapers..."
-              className="w-full bg-gray-950 px-3 py-2 rounded-xl border border-gray-800 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-white pl-10 pr-4 py-2 rounded-full border border-[#D1D5DB] text-xs text-[#14181F] placeholder-[#9CA3AF] focus:border-[#14181F] focus:outline-none"
             />
           </div>
 
           {currentReport && (
             <button
               onClick={handleSaveCurrent}
-              className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-md transition-all shrink-0"
+              className="h-[38px] px-4 bg-[#151A17] hover:bg-[#262E29] text-white rounded-full text-xs font-bold transition-all shadow-xs shrink-0"
             >
               + Bookmark Current Report
             </button>
@@ -113,26 +118,26 @@ export const ResearchLibraryModal: React.FC<ResearchLibraryModalProps> = ({
         {/* Items List */}
         <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
           {filtered.length === 0 ? (
-            <div className="text-center py-12 text-gray-500 text-xs">
+            <div className="text-center py-12 text-[#6B7280] text-xs">
               No saved research reports yet. Launch a topic and bookmark the report here.
             </div>
           ) : (
             filtered.map((item) => (
               <div
                 key={item.id}
-                className="p-3.5 bg-gray-950/80 hover:bg-gray-800/60 rounded-xl border border-gray-800 hover:border-indigo-500/40 transition-all flex items-center justify-between gap-3 group"
+                className="p-4 bg-white hover:bg-[#F8FAFC] rounded-xl border border-[#E5E7EB] hover:border-[#14181F] transition-all flex items-center justify-between gap-3 shadow-xs group"
               >
                 <div className="space-y-1 overflow-hidden">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800/40 uppercase">
+                    <span className="text-[10px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200 uppercase font-semibold">
                       {item.persona}
                     </span>
-                    <h4 className="text-xs font-bold text-gray-100 group-hover:text-indigo-300 truncate">
+                    <h4 className="text-xs font-bold text-[#14181F] group-hover:text-[#2563EB] truncate">
                       {item.topic}
                     </h4>
                   </div>
-                  <p className="text-[11px] text-gray-500 font-mono">
-                    {item.report.wordCount} words · Score: {item.credibilityScore}% · {new Date(item.savedAt).toLocaleDateString()}
+                  <p className="text-[11px] text-[#6B7280]">
+                    {item.report.wordCount} words • Score: {item.credibilityScore}% • {new Date(item.savedAt).toLocaleDateString()}
                   </p>
                 </div>
 
@@ -142,16 +147,16 @@ export const ResearchLibraryModal: React.FC<ResearchLibraryModalProps> = ({
                       onLoadReport(item);
                       onClose();
                     }}
-                    className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white rounded-lg text-xs font-medium border border-indigo-500/40 transition-all"
+                    className="flex items-center gap-1.5 h-[34px] px-3.5 rounded-full bg-white hover:bg-[#F8FAFC] text-xs font-semibold text-[#14181F] border border-[#D1D5DB] transition-all shadow-xs"
                   >
                     <span>Load</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="p-1.5 text-gray-500 hover:text-rose-400 hover:bg-gray-800 rounded-lg"
+                    className="p-1.5 text-[#9CA3AF] hover:text-[#DC2626] hover:bg-rose-50 rounded-lg transition-colors"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>

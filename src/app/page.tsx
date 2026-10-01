@@ -14,6 +14,8 @@ import { ReaderView } from '@/components/views/ReaderView';
 import { CriticView } from '@/components/views/CriticView';
 import { ReportView } from '@/components/views/ReportView';
 import { LogsView } from '@/components/views/LogsView';
+import { BottomTabBar } from '@/components/BottomTabBar';
+import { AgentDrawer } from '@/components/AgentDrawer';
 import {
   ResearchWorkflowState,
   ResearchDepth,
@@ -25,6 +27,7 @@ import {
   SearchSource,
   ExtractedFact,
   StreamEvent,
+  AgentType,
 } from '@/lib/types';
 import { INITIAL_AGENTS } from '@/lib/agents/orchestrator';
 
@@ -48,6 +51,7 @@ export default function HomePage() {
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
   const [isRewriting, setIsRewriting] = useState(false);
+  const [inspectingAgent, setInspectingAgent] = useState<AgentType | null>(null);
 
   // Multi-Agent Workflow State
   const [workflowState, setWorkflowState] = useState<ResearchWorkflowState>({
@@ -422,8 +426,8 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#090D16] text-gray-100 font-sans">
-      {/* Left Sidebar Navigation */}
+    <div className="min-h-screen flex bg-white text-[#14181F] font-sans antialiased">
+      {/* Left Collapsible Workspace Drawer */}
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
@@ -435,8 +439,8 @@ export default function HomePage() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        {/* Top Control & Search Bar */}
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-white">
+        {/* Top Control Navbar, Sub-bar & Filter Row */}
         <Header
           state={workflowState}
           topicInput={topicInput}
@@ -453,27 +457,30 @@ export default function HomePage() {
           onStop={handleStopResearch}
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenPresets={() => setIsPresetsOpen(true)}
+          onOpenLibrary={() => setIsLibraryOpen(true)}
+          onOpenUploader={() => setIsUploaderOpen(true)}
           currentView={currentView}
+          setCurrentView={setCurrentView}
         />
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto space-y-4">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 xl:p-10 w-full space-y-6 pb-28">
           {workflowState.status === 'error' && (
-            <div className="p-4 bg-rose-950/60 border border-rose-500/50 rounded-xl flex items-center justify-between gap-3 text-rose-200 shadow-lg">
+            <div className="p-4 bg-rose-50 border border-rose-300 rounded-2xl flex items-center justify-between gap-3 text-rose-900 shadow-xs">
               <div className="flex items-center gap-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-rose-300">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-rose-800">
                     Autonomous Pipeline Encountered an Issue
                   </h4>
-                  <p className="text-xs text-rose-200">
+                  <p className="text-xs text-rose-700">
                     {workflowState.error || 'Pipeline execution halted. Local fallback mode is active.'}
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => handleStartResearch()}
-                className="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors shrink-0"
+                className="px-4 py-1.5 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-bold rounded-full shadow-xs transition-colors shrink-0"
               >
                 Retry Research
               </button>
@@ -484,6 +491,7 @@ export default function HomePage() {
             <FloorOverviewView
               state={workflowState}
               onNavigate={(v) => setCurrentView(v)}
+              onInspectAgent={(agentId) => setInspectingAgent(agentId)}
             />
           )}
 
@@ -536,6 +544,21 @@ export default function HomePage() {
           )}
         </main>
       </div>
+
+      {/* 480px White Agent Drawer */}
+      <AgentDrawer
+        isOpen={inspectingAgent !== null}
+        onClose={() => setInspectingAgent(null)}
+        agentId={inspectingAgent}
+        state={workflowState}
+      />
+
+      {/* Semrush-Style Bottom Tab Bar */}
+      <BottomTabBar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        state={workflowState}
+      />
 
       {/* Modals */}
       <SettingsModal

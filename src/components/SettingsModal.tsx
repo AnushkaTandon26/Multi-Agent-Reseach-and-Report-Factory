@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { X, Key, Cpu, Sliders, Shield, Info } from 'lucide-react';
-import { ResearchDepth } from '../lib/types';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -28,19 +27,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-lg bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-2xl space-y-5 text-gray-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="w-full max-w-lg bg-white border border-[#E5E7EB] rounded-2xl p-6 shadow-2xl space-y-5 text-[#14181F]">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-800 pb-3">
-          <div className="flex items-center gap-2">
-            <Sliders className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-base font-bold text-white">
-              Research Factory Configuration
-            </h3>
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3.5">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[#F1F2F4] flex items-center justify-center text-[#14181F]">
+              <Sliders className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#14181F]">
+                System Configuration
+              </h3>
+              <p className="text-xs text-[#6B7280]">AI models, API keys, and custom directives</p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#6B7280] hover:text-[#14181F] hover:bg-[#F1F2F4] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -50,8 +54,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="space-y-4 text-xs">
           {/* API Key */}
           <div className="space-y-1.5">
-            <label className="font-semibold text-gray-300 flex items-center gap-1.5">
-              <Key className="w-3.5 h-3.5 text-indigo-400" />
+            <label className="font-semibold text-[#14181F] flex items-center gap-1.5">
+              <Key className="w-3.5 h-3.5 text-[#2563EB]" />
               Google Gemini API Key (Optional)
             </label>
             <input
@@ -59,24 +63,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="AIzaSy... (Leave empty to use built-in intelligent simulation)"
-              className="w-full bg-gray-950 px-3 py-2 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500 font-mono text-xs text-gray-100 placeholder-gray-600"
+              className="w-full bg-white px-3.5 py-2.5 rounded-full border border-[#D1D5DB] focus:border-[#14181F] focus:outline-none font-mono text-xs text-[#14181F] placeholder-[#9CA3AF]"
             />
-            <p className="text-[11px] text-gray-500 flex items-center gap-1">
-              <Info className="w-3 h-3 text-gray-500" />
+            <p className="text-[11px] text-[#6B7280] flex items-center gap-1">
+              <Info className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
               Without a key, the factory executes full simulated multi-agent reasoning + live search queries.
             </p>
           </div>
 
           {/* Model Selection */}
           <div className="space-y-1.5">
-            <label className="font-semibold text-gray-300 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-blue-400" />
+            <label className="font-semibold text-[#14181F] flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-[#6366F1]" />
               Model Architecture
             </label>
             <select
               value={modelName}
               onChange={(e) => setModelName(e.target.value)}
-              className="w-full bg-gray-950 px-3 py-2 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500 text-xs text-gray-200"
+              className="w-full bg-white px-3.5 py-2.5 rounded-full border border-[#D1D5DB] focus:border-[#14181F] focus:outline-none text-xs text-[#14181F] cursor-pointer"
             >
               <option value="gemini-1.5-flash">Gemini 1.5 Flash (Ultra Fast &amp; Balanced)</option>
               <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Reasoning &amp; Complex Analysis)</option>
@@ -86,8 +90,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Custom Directives */}
           <div className="space-y-1.5">
-            <label className="font-semibold text-gray-300 flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-purple-400" />
+            <label className="font-semibold text-[#14181F] flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-[#7C3AED]" />
               Custom Directives &amp; Focus Constraints
             </label>
             <textarea
@@ -95,16 +99,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               value={customInstructions}
               onChange={(e) => setCustomInstructions(e.target.value)}
               placeholder="e.g. Focus heavily on 2025 financial unit economics, prioritize semiconductor manufacturing supply chain bottlenecks, etc."
-              className="w-full bg-gray-950 p-3 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500 text-xs text-gray-200 placeholder-gray-600 resize-none"
+              className="w-full bg-white p-3 rounded-xl border border-[#D1D5DB] focus:border-[#14181F] focus:outline-none text-xs text-[#14181F] placeholder-[#9CA3AF] resize-none"
             />
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-800">
+        <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#E5E7EB]">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition-all"
+            className="px-5 py-2.5 bg-[#151A17] hover:bg-[#262E29] text-white rounded-full text-xs font-bold transition-all shadow-xs"
           >
             Save &amp; Close
           </button>

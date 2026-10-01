@@ -13,6 +13,9 @@ import {
   Radio,
   ArrowRight,
   Clock,
+  Search,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
 import { ResearchWorkflowState, AgentType, AgentMessageType } from '../../lib/types';
 import { TraceFormatter } from '../../lib/agents/traceFormatter';
@@ -24,6 +27,8 @@ interface LogsViewProps {
 export const LogsView: React.FC<LogsViewProps> = ({ state }) => {
   const [selectedAgentFilter, setSelectedAgentFilter] = useState<AgentType | 'all'>('all');
   const [activeTab, setActiveTab] = useState<'messages' | 'tool_calls' | 'stream' | 'replan_trace'>('messages');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   const messages = state.messages || [];
   const toolCalls = state.toolCalls || [];
@@ -117,35 +122,51 @@ export const LogsView: React.FC<LogsViewProps> = ({ state }) => {
   const getMessageTypeBadge = (type: AgentMessageType) => {
     switch (type) {
       case 'task':
-        return 'bg-blue-500/15 text-blue-300 border-blue-500/30';
+        return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'result':
-        return 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
       case 'critique':
-        return 'bg-amber-500/15 text-amber-300 border-amber-500/30';
+        return 'bg-amber-50 text-amber-700 border-amber-200';
       case 'revision_request':
-        return 'bg-rose-500/15 text-rose-300 border-rose-500/30';
+        return 'bg-rose-50 text-rose-700 border-rose-200';
       case 'escalation':
-        return 'bg-purple-500/15 text-purple-300 border-purple-500/30';
+        return 'bg-purple-50 text-purple-700 border-purple-200';
     }
   };
 
+  const filteredMessages = messages.filter((msg) => {
+    const matchesAgent =
+      selectedAgentFilter === 'all' ||
+      msg.from === selectedAgentFilter ||
+      msg.to === selectedAgentFilter;
+    const matchesSearch =
+      !searchQuery ||
+      msg.reasoning.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      msg.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      msg.to.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      JSON.stringify(msg.payload || {}).toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesAgent && matchesSearch;
+  });
+
   return (
-    <div className="space-y-5 pb-12">
-      {/* Top Banner with Trace Download Actions */}
-      <div className="bg-[#0F172A] p-4 sm:p-5 rounded-xl border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
-            <Terminal className="w-5 h-5" />
+    <div className="space-y-6 pb-20 w-full">
+      {/* Top Banner with Trace Actions */}
+      <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E5E7EB] shadow-[0_2px_12px_rgba(16,24,40,0.06)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#F1F2F4] border border-[#E5E7EB] flex items-center justify-center text-[#14181F] shrink-0">
+            <Terminal className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              Agent Telemetry &amp; Execution Trace
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                Message Bus Active
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-[#14181F]">
+                Message Bus Telemetry &amp; Execution Trace
+              </h2>
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                ACTIVE
               </span>
-            </h2>
-            <p className="text-xs text-slate-400">
-              Captures typed agent-to-agent messages, discrete tool executions, and Critic-directed replan cycles.
+            </div>
+            <p className="text-xs text-[#6B7280]">
+              Audits all inter-agent structured messages, tool calls, and evaluator-optimizer replanning loops.
             </p>
           </div>
         </div>
@@ -155,253 +176,303 @@ export const LogsView: React.FC<LogsViewProps> = ({ state }) => {
           <button
             onClick={handleDownloadJSONTrace}
             disabled={messages.length === 0}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-cyan-300 rounded-lg border border-slate-700 shadow-sm transition-all disabled:opacity-40"
-            title="Download real captured execution trace as JSON"
+            className="flex items-center gap-1.5 h-[38px] px-4 rounded-full bg-white hover:bg-[#F8FAFC] text-xs font-semibold text-[#14181F] border border-[#D1D5DB] transition-all shadow-xs disabled:opacity-40"
+            title="Download structured execution trace JSON"
           >
-            <FileCode className="w-3.5 h-3.5" />
-            <span>Download Trace (.json)</span>
+            <FileCode className="w-4 h-4 text-[#2563EB]" />
+            <span>Trace (.json)</span>
           </button>
 
           <button
             onClick={handleDownloadMarkdownTrace}
             disabled={messages.length === 0}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-cyan-300 rounded-lg border border-slate-700 shadow-sm transition-all disabled:opacity-40"
-            title="Download human-readable markdown execution trace"
+            className="flex items-center gap-1.5 h-[38px] px-4 rounded-full bg-[#151A17] hover:bg-[#262E29] text-xs font-semibold text-white transition-all shadow-xs disabled:opacity-40"
+            title="Download human-readable markdown trace"
           >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Download Trace (.md)</span>
+            <FileText className="w-4 h-4 text-white" />
+            <span>Trace (.md)</span>
           </button>
         </div>
       </div>
 
-      {/* Tabs Row */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
-        <button
-          onClick={() => setActiveTab('messages')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            activeTab === 'messages'
-              ? 'bg-blue-600/20 text-blue-300 border border-blue-500/40 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Radio className="w-3.5 h-3.5" />
-          <span>Inter-Agent Messages ({messages.length})</span>
-        </button>
+      {/* Main Container Card */}
+      <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-[0_2px_12px_rgba(16,24,40,0.06)] overflow-hidden">
+        {/* Sub-nav Tabs */}
+        <div className="flex flex-wrap items-center justify-between border-b border-[#E5E7EB] bg-[#F8FAFC] px-5 py-3 gap-3">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setActiveTab('messages')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                activeTab === 'messages'
+                  ? 'bg-[#151A17] text-white shadow-xs'
+                  : 'text-[#6B7280] hover:text-[#14181F]'
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5" />
+              <span>Inter-Agent Messages ({messages.length})</span>
+            </button>
 
-        <button
-          onClick={() => setActiveTab('tool_calls')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            activeTab === 'tool_calls'
-              ? 'bg-blue-600/20 text-blue-300 border border-blue-500/40 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Wrench className="w-3.5 h-3.5" />
-          <span>Tool Calls ({toolCalls.length})</span>
-        </button>
+            <button
+              onClick={() => setActiveTab('tool_calls')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                activeTab === 'tool_calls'
+                  ? 'bg-[#151A17] text-white shadow-xs'
+                  : 'text-[#6B7280] hover:text-[#14181F]'
+              }`}
+            >
+              <Wrench className="w-3.5 h-3.5" />
+              <span>Tool Calls ({toolCalls.length})</span>
+            </button>
 
-        <button
-          onClick={() => setActiveTab('replan_trace')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            activeTab === 'replan_trace'
-              ? 'bg-amber-600/20 text-amber-300 border border-amber-500/40 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Repeat className="w-3.5 h-3.5" />
-          <span>Replan Loops ({replanHistory.length})</span>
-        </button>
+            <button
+              onClick={() => setActiveTab('replan_trace')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                activeTab === 'replan_trace'
+                  ? 'bg-[#151A17] text-white shadow-xs'
+                  : 'text-[#6B7280] hover:text-[#14181F]'
+              }`}
+            >
+              <Repeat className="w-3.5 h-3.5" />
+              <span>Replan Loops ({replanHistory.length})</span>
+            </button>
 
-        <button
-          onClick={() => setActiveTab('stream')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            activeTab === 'stream'
-              ? 'bg-cyan-600/20 text-cyan-300 border border-cyan-500/40 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Terminal className="w-3.5 h-3.5" />
-          <span>Agent Thoughts &amp; Logs</span>
-        </button>
-      </div>
+            <button
+              onClick={() => setActiveTab('stream')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                activeTab === 'stream'
+                  ? 'bg-[#151A17] text-white shadow-xs'
+                  : 'text-[#6B7280] hover:text-[#14181F]'
+              }`}
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>Agent Thoughts</span>
+            </button>
+          </div>
 
-      {/* Tab 1: Inter-Agent Message Bus */}
-      {activeTab === 'messages' && (
-        <div className="space-y-3">
-          {messages.length === 0 ? (
-            <div className="bg-[#0A101D] p-12 text-center rounded-xl border border-slate-800 text-slate-500 text-xs">
-              No inter-agent messages recorded yet. Launch the research floor to see real-time handoffs.
-            </div>
-          ) : (
-            <div className="space-y-2.5">
-              {messages.map((msg, index) => {
-                const timeStr = new Date(msg.timestamp).toISOString().split('T')[1].replace('Z', '');
-                return (
-                  <div
-                    key={msg.id || index}
-                    className="p-3.5 bg-[#0D1527] rounded-xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] text-slate-500">
-                          {timeStr}
-                        </span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-slate-200 uppercase font-mono">
-                            {msg.from}
-                          </span>
-                          <ArrowRight className="w-3 h-3 text-slate-500" />
-                          <span className="font-bold text-slate-200 uppercase font-mono">
-                            {msg.to}
-                          </span>
-                        </div>
-                        <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border uppercase ${getMessageTypeBadge(msg.type)}`}>
-                          {msg.type}
-                        </span>
-                      </div>
-                      <p className="text-slate-300 font-medium text-xs">
-                        {msg.reasoning}
-                      </p>
-                    </div>
-
-                    {msg.payload && (
-                      <div className="bg-slate-950/70 p-2 rounded-lg border border-slate-800/80 font-mono text-[10px] text-slate-400 max-w-sm w-full truncate">
-                        {JSON.stringify(msg.payload)}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          {/* Search Input in Logs Toolbar */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-[#9CA3AF] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search logs or payloads..."
+              className="h-[34px] pl-8 pr-3 rounded-full border border-[#D1D5DB] text-xs text-[#14181F] placeholder-[#9CA3AF] focus:border-[#14181F] bg-white w-48 sm:w-64"
+            />
+          </div>
         </div>
-      )}
 
-      {/* Tab 2: Tool Calls */}
-      {activeTab === 'tool_calls' && (
-        <div className="space-y-3">
-          {toolCalls.length === 0 ? (
-            <div className="bg-[#0A101D] p-12 text-center rounded-xl border border-slate-800 text-slate-500 text-xs">
-              No tool calls logged yet. Agents invoke WebSearchTool, DocumentParserTool, and ScoringRubricTool during execution.
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {toolCalls.map((tool, idx) => (
-                <div
-                  key={tool.id || idx}
-                  className="p-3 bg-[#0D1527] rounded-xl border border-slate-800 flex items-center justify-between gap-3 text-xs"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-slate-200">
-                          {tool.toolName}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          invoked by {tool.agent.toUpperCase()}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-400 font-mono truncate max-w-md">
-                        Input: {JSON.stringify(tool.input)}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-[11px] font-mono text-slate-500">
-                      {tool.durationMs}ms
-                    </span>
-                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/40">
-                      Success
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+        {/* Filter Chips Row */}
+        <div className="px-5 py-2.5 bg-white border-b border-[#E5E7EB] flex items-center gap-2 overflow-x-auto text-xs">
+          <span className="text-[#6B7280] font-semibold text-[11px] uppercase tracking-wider mr-1">
+            Agent:
+          </span>
+          {(['all', 'planner', 'searcher', 'reader', 'critic', 'writer'] as const).map((id) => (
+            <button
+              key={id}
+              onClick={() => setSelectedAgentFilter(id)}
+              className={`px-3 py-1 rounded-full text-xs capitalize font-medium transition-all ${
+                selectedAgentFilter === id
+                  ? 'bg-[#EAD5FF] text-[#581C87] font-bold border border-[#D8B4FE]'
+                  : 'text-[#4B5563] hover:text-[#14181F] hover:bg-[#F1F2F4]'
+              }`}
+            >
+              {id}
+            </button>
+          ))}
         </div>
-      )}
 
-      {/* Tab 3: Replan Loops */}
-      {activeTab === 'replan_trace' && (
-        <div className="space-y-3">
-          {replanHistory.length === 0 ? (
-            <div className="bg-[#0A101D] p-12 text-center rounded-xl border border-slate-800 text-slate-500 text-xs">
-              No replan loops triggered yet. If the Critic detects insufficient evidence or weak citation adherence, replan loops will be registered here.
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {replanHistory.map((loop) => (
+        {/* Tab 1: Messages Table */}
+        {activeTab === 'messages' && (
+          <div className="overflow-x-auto">
+            {filteredMessages.length === 0 ? (
+              <div className="py-16 text-center text-[#6B7280] text-xs">
+                No matching inter-agent messages found.
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#F8FAFC] border-b border-[#E5E7EB] text-[#6B7280]">
+                  <tr>
+                    <th className="py-3 px-4 font-semibold">Time</th>
+                    <th className="py-3 px-4 font-semibold">Handoff</th>
+                    <th className="py-3 px-4 font-semibold">Type</th>
+                    <th className="py-3 px-4 font-semibold">Reasoning &amp; Purpose</th>
+                    <th className="py-3 px-4 font-semibold text-right">Payload</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E5E7EB]">
+                  {filteredMessages.map((msg, index) => {
+                    const rowId = msg.id || `msg-${index}`;
+                    const isExpanded = expandedRow === rowId;
+                    const timeStr = new Date(msg.timestamp).toISOString().split('T')[1].replace('Z', '');
+
+                    return (
+                      <React.Fragment key={rowId}>
+                        <tr className="hover:bg-[#F8FAFC] transition-colors">
+                          <td className="py-3 px-4 font-mono text-[11px] text-[#6B7280] shrink-0">
+                            {timeStr}
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-1.5 font-mono font-bold text-[#14181F]">
+                              <span className="uppercase">{msg.from}</span>
+                              <ArrowRight className="w-3 h-3 text-[#9CA3AF]" />
+                              <span className="uppercase">{msg.to}</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border ${getMessageTypeBadge(
+                                msg.type
+                              )}`}
+                            >
+                              {msg.type}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-[#334155] font-medium max-w-md">
+                            {msg.reasoning}
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            {msg.payload && (
+                              <button
+                                onClick={() => setExpandedRow(isExpanded ? null : rowId)}
+                                className="inline-flex items-center gap-1 text-[11px] font-mono text-[#2563EB] hover:underline font-semibold"
+                              >
+                                <span>{isExpanded ? 'Hide' : 'Inspect'}</span>
+                                {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+
+                        {isExpanded && msg.payload && (
+                          <tr className="bg-[#F8FAFC]">
+                            <td colSpan={5} className="p-4">
+                              <pre className="p-3 bg-white border border-[#E5E7EB] rounded-xl text-[11px] font-mono text-[#14181F] overflow-x-auto shadow-inner max-h-60">
+                                {JSON.stringify(msg.payload, null, 2)}
+                              </pre>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
+        {/* Tab 2: Tool Calls Table */}
+        {activeTab === 'tool_calls' && (
+          <div className="overflow-x-auto">
+            {toolCalls.length === 0 ? (
+              <div className="py-16 text-center text-[#6B7280] text-xs">
+                No tool calls logged yet.
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#F8FAFC] border-b border-[#E5E7EB] text-[#6B7280]">
+                  <tr>
+                    <th className="py-3 px-4 font-semibold">Tool Name</th>
+                    <th className="py-3 px-4 font-semibold">Agent</th>
+                    <th className="py-3 px-4 font-semibold">Duration</th>
+                    <th className="py-3 px-4 font-semibold">Input Summary</th>
+                    <th className="py-3 px-4 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E5E7EB]">
+                  {toolCalls.map((tc, idx) => (
+                    <tr key={tc.id || idx} className="hover:bg-[#F8FAFC] transition-colors">
+                      <td className="py-3 px-4 font-mono font-bold text-[#14181F]">
+                        {tc.toolName}
+                      </td>
+                      <td className="py-3 px-4 font-mono uppercase text-[#2563EB] font-bold">
+                        {tc.agent}
+                      </td>
+                      <td className="py-3 px-4 font-mono text-[11px] text-[#6B7280]">
+                        {tc.durationMs}ms
+                      </td>
+                      <td className="py-3 px-4 font-mono text-[11px] text-[#4B5563] max-w-sm truncate">
+                        {JSON.stringify(tc.input)}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                          SUCCESS
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
+        {/* Tab 3: Replan Loops */}
+        {activeTab === 'replan_trace' && (
+          <div className="p-5 space-y-3">
+            {replanHistory.length === 0 ? (
+              <div className="py-12 text-center text-[#6B7280] text-xs">
+                No replan loops triggered yet. When Critic detects insufficient data, loops will appear here.
+              </div>
+            ) : (
+              replanHistory.map((loop) => (
                 <div
                   key={loop.loopNumber}
-                  className="p-4 bg-amber-950/20 rounded-xl border border-amber-500/40 space-y-2 text-xs"
+                  className="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-1.5 text-xs"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Repeat className="w-4 h-4 text-amber-400" />
-                      <h4 className="font-bold text-amber-300">
+                      <Repeat className="w-4 h-4 text-amber-700" />
+                      <h4 className="font-bold text-amber-900">
                         Feedback Loop #{loop.loopNumber}: {loop.from.toUpperCase()} ➔ {loop.to.toUpperCase()}
                       </h4>
                     </div>
-                    <span className="font-mono text-[10px] text-slate-400">
+                    <span className="font-mono text-[11px] text-amber-800">
                       {new Date(loop.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <p className="text-slate-300 font-medium">
+                  <p className="text-[#334155] font-medium">
                     Trigger Reason: {loop.reason}
                   </p>
                   {loop.details && (
-                    <p className="text-[11px] text-slate-400 font-mono bg-slate-950/60 p-2 rounded border border-slate-800">
+                    <p className="text-[11px] text-[#4B5563] font-mono bg-white p-2.5 rounded-lg border border-amber-200">
                       Directives: {loop.details}
                     </p>
                   )}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Tab 4: Raw Stream Thoughts */}
-      {activeTab === 'stream' && (
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 pb-2">
-            <span className="text-xs text-slate-400">Filter by Agent:</span>
-            {(['all', 'planner', 'searcher', 'reader', 'critic', 'writer'] as const).map((id) => (
-              <button
-                key={id}
-                onClick={() => setSelectedAgentFilter(id)}
-                className={`px-2 py-1 rounded text-xs capitalize transition-colors ${
-                  selectedAgentFilter === id
-                    ? 'bg-blue-600 text-white font-semibold'
-                    : 'bg-slate-800 text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {id}
-              </button>
-            ))}
+              ))
+            )}
           </div>
+        )}
 
-          <div className="bg-[#090D16] p-4 rounded-xl border border-slate-800 font-mono text-xs space-y-2 max-h-[500px] overflow-y-auto">
+        {/* Tab 4: Agent Stream Thoughts */}
+        {activeTab === 'stream' && (
+          <div className="p-5 space-y-2 max-h-[500px] overflow-y-auto font-mono text-xs">
             {(['planner', 'searcher', 'reader', 'critic', 'writer'] as AgentType[])
               .filter((id) => selectedAgentFilter === 'all' || selectedAgentFilter === id)
               .map((id) => {
                 const agent = state.agents[id];
+                if (agent.thoughtStream.length === 0) return null;
                 return (
-                  <div key={id} className="space-y-1">
+                  <div key={id} className="space-y-1.5 pb-2">
+                    <div className="font-bold text-[#14181F] flex items-center gap-1.5">
+                      <span className="uppercase">[{agent.name}]</span>
+                    </div>
                     {agent.thoughtStream.map((t, idx) => (
-                      <div key={idx} className="text-slate-300 flex items-start gap-2">
-                        <span className="text-blue-400 shrink-0">[{id.toUpperCase()}]</span>
-                        <span>{t}</span>
+                      <div
+                        key={idx}
+                        className="p-2.5 bg-[#F8FAFC] border-l-2 border-[#151A17] rounded-r text-[#334155] text-[11px]"
+                      >
+                        💭 {t}
                       </div>
                     ))}
                   </div>
                 );
               })}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
