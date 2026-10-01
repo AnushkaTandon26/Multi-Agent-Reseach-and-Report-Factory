@@ -1,0 +1,274 @@
+# Research Factory: Input & Output Definitions
+
+This document details the exact JSON schemas and real-world sample payloads for both system inputs and system outputs.
+
+---
+
+## 1. System Input Definition
+
+### 1.1 JSON Schema
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchFactoryInput",
+  "type": "object",
+  "properties": {
+    "topic": {
+      "type": "string",
+      "description": "Primary research thesis, technological domain, or question to investigate.",
+      "minLength": 3
+    },
+    "depth": {
+      "type": "string",
+      "enum": ["quick", "standard", "deep"],
+      "default": "standard",
+      "description": "Research depth controlling search vector count, document count, and extraction density."
+    },
+    "persona": {
+      "type": "string",
+      "enum": ["executive", "academic", "investment", "technical"],
+      "default": "executive",
+      "description": "Target audience tone and structure for the final whitepaper."
+    },
+    "searchScope": {
+      "type": "string",
+      "enum": ["all", "academic", "financial", "medical"],
+      "default": "all",
+      "description": "Domain filtering for search probes."
+    },
+    "redTeamMode": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, enables adversarial stress-testing, counter-theses, and failure mode analysis."
+    },
+    "customInstructions": {
+      "type": "string",
+      "description": "Optional custom guidance passed to the Strategic Planner."
+    },
+    "customDocuments": {
+      "type": "array",
+      "description": "BYOD user-uploaded internal documents (PDF/TXT/MD) to ingest alongside web sources.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "size": { "type": "number" },
+          "content": { "type": "string" },
+          "uploadedAt": { "type": "string" }
+        },
+        "required": ["id", "name", "content"]
+      }
+    },
+    "apiKey": {
+      "type": "string",
+      "description": "Optional Gemini API key. If omitted, uses server environment key or deterministic heuristic engine."
+    },
+    "modelName": {
+      "type": "string",
+      "default": "gemini-1.5-flash",
+      "description": "Gemini model variant."
+    }
+  },
+  "required": ["topic"]
+}
+```
+
+### 1.2 Real Sample Input Payload
+```json
+{
+  "topic": "Commercial Viability of Solid-State Batteries by 2030",
+  "depth": "deep",
+  "persona": "investment",
+  "searchScope": "all",
+  "redTeamMode": true,
+  "customInstructions": "Highlight cathode chemistries, cost parity with LFP, and Tier-1 automotive OEM roadmap milestones.",
+  "customDocuments": [
+    {
+      "id": "doc-internal-01",
+      "name": "Q3_OEM_Battery_Roadmap_Memo.txt",
+      "size": 1420,
+      "content": "Internal testing confirms solid-state pouch cells achieved 380 Wh/kg at C/3 discharge rates with 92% capacity retention after 800 cycles.",
+      "uploadedAt": "2026-10-01T10:00:00.000Z"
+    }
+  ],
+  "modelName": "gemini-1.5-flash"
+}
+```
+
+---
+
+## 2. System Output Definition
+
+### 2.1 JSON Schema
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchFactoryOutput",
+  "type": "object",
+  "properties": {
+    "workflow": {
+      "type": "object",
+      "properties": {
+        "topic": { "type": "string" },
+        "depth": { "type": "string" },
+        "status": { "type": "string", "enum": ["completed", "error"] },
+        "startedAt": { "type": "number" },
+        "completedAt": { "type": "number" },
+        "replanLoops": { "type": "number" }
+      },
+      "required": ["topic", "status"]
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "topic": { "type": "string" },
+        "targetAudience": { "type": "string" },
+        "coreObjectives": { "type": "array", "items": { "type": "string" } },
+        "subQuestions": { "type": "array", "items": { "type": "string" } },
+        "hypotheses": { "type": "array", "items": { "type": "string" } },
+        "searchQueries": { "type": "array", "items": { "type": "string" } },
+        "proposedSections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "focus": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "domain": { "type": "string" },
+          "snippet": { "type": "string" },
+          "relevanceScore": { "type": "number" }
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "sourceId": { "type": "string" },
+          "fact": { "type": "string" },
+          "category": { "type": "string" },
+          "confidence": { "type": "number" }
+        }
+      }
+    },
+    "criticReview": {
+      "type": "object",
+      "properties": {
+        "overallCredibilityScore": { "type": "number" },
+        "totalSourcesEvaluated": { "type": "number" },
+        "verifiedFactsCount": { "type": "number" },
+        "criticDecision": { "type": "string" },
+        "sourceScorecards": { "type": "array" },
+        "verifiedClaims": { "type": "array" },
+        "questionableClaims": { "type": "array" }
+      }
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "executiveSummary": { "type": "string" },
+        "markdownContent": { "type": "string" },
+        "wordCount": { "type": "number" },
+        "readingTimeMinutes": { "type": "number" },
+        "citations": { "type": "array" },
+        "slides": { "type": "array" },
+        "podcastDialogue": { "type": "array" }
+      }
+    },
+    "trace": {
+      "type": "object",
+      "description": "Full chronological execution trace capturing all inter-agent messages and tool calls."
+    }
+  },
+  "required": ["workflow", "plan", "sources", "facts", "criticReview", "report", "trace"]
+}
+```
+
+### 2.2 Real Sample Output Excerpt
+```json
+{
+  "workflow": {
+    "topic": "Commercial Viability of Solid-State Batteries by 2030",
+    "depth": "deep",
+    "status": "completed",
+    "startedAt": 1740000000000,
+    "completedAt": 1740000012400,
+    "replanLoops": 1
+  },
+  "plan": {
+    "topic": "Commercial Viability of Solid-State Batteries by 2030",
+    "targetAudience": "Venture Capital & Investment Decision Makers",
+    "coreObjectives": [
+      "Evaluate manufacturing yield rates for solid electrolyte separators",
+      "Benchmark gravimetric energy density against NMC811 baselines",
+      "Forecast cell-level cost parity milestones ($/kWh)"
+    ],
+    "subQuestions": [
+      "What are current pilot-line yield rates across sulfide vs oxide electrolytes?",
+      "How do Projected 2028-2030 pack costs compare to LFP baselines?",
+      "Which automotive OEM joint ventures lead commercialization?"
+    ],
+    "hypotheses": [
+      "Solid-state battery cells will reach pack-level parity with premium NMC by 2029.",
+      "Anode-less lithium metal designs encounter severe calendar life degradation without active pressure management."
+    ],
+    "searchQueries": [
+      "solid state battery commercialization timeline OEM 2028 2030",
+      "sulfide oxide electrolyte cost comparison per kWh",
+      "lithium metal dendrite stack pressure cycle life"
+    ]
+  },
+  "criticReview": {
+    "overallCredibilityScore": 91,
+    "totalSourcesEvaluated": 12,
+    "verifiedFactsCount": 16,
+    "criticDecision": "approved",
+    "sourceScorecards": [
+      {
+        "sourceId": "src-1",
+        "domain": "nature.com",
+        "credibilityScore": 96,
+        "authorityLevel": "High",
+        "biasRating": "Academic",
+        "flags": [],
+        "verdict": "Verified reference passed rigor audit (96/100)"
+      }
+    ]
+  },
+  "report": {
+    "title": "Commercial Viability of Solid-State Batteries by 2030: Strategic Investment Memo",
+    "wordCount": 1845,
+    "readingTimeMinutes": 8,
+    "citations": [
+      {
+        "id": "src-1",
+        "index": 1,
+        "title": "Progress and Perspectives on Halide and Sulfide Solid Electrolytes",
+        "url": "https://nature.com/articles/s41565",
+        "domain": "nature.com",
+        "authorOrOrg": "Nature Materials",
+        "credibilityScore": 96
+      }
+    ]
+  }
+}
+```
