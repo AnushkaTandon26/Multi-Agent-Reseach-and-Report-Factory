@@ -299,3 +299,11 @@ export interface StreamEvent {
   timestamp: number;
   data: any;
 }
+
+export interface DynamicReplanningFeedback {
+  iteration: number;
+  targetStage: 'Planner' | 'Searcher' | 'Reader';
+  shortfalls: string[];
+  recommendedActions: string[];
+  gapAnalysisConfidence: number;
+}
