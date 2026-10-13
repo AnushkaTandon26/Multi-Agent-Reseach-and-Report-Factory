@@ -19,9 +19,13 @@ import {
   LayoutDashboard,
   FileText,
   Repeat,
+  Sun,
+  Moon,
+  Globe,
 } from 'lucide-react';
 import { ResearchWorkflowState, ResearchDepth, ReportPersona, SearchScope } from '../lib/types';
 import { NavView } from './Sidebar';
+import { usePreferences } from '../context/PreferencesContext';
 
 interface HeaderProps {
   state: ResearchWorkflowState;
@@ -66,6 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentView,
   setCurrentView,
 }) => {
+  const { theme, setTheme, t } = usePreferences();
   const isRunning = state.status === 'running';
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -175,15 +180,30 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Archive</span>
           </button>
 
+          {/* Quick Theme Toggle Pill */}
+          <button
+            type="button"
+            onClick={() => setTheme(theme === 'dark' || theme === 'midnight' ? 'light' : 'dark')}
+            className="flex items-center gap-1.5 h-[42px] px-3.5 rounded-full bg-white dark:bg-[#1E293B] border border-[#D1D5DB] dark:border-[#334155] hover:border-[#14181F] text-xs font-semibold text-[#14181F] dark:text-white transition-all hover:bg-[#F8FAFC]"
+            title={`Toggle Theme (Current: ${theme})`}
+          >
+            {theme === 'dark' || theme === 'midnight' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-600" />
+            )}
+            <span className="hidden lg:inline capitalize">{theme}</span>
+          </button>
+
           {/* Config / Settings Pill */}
           <button
             type="button"
             onClick={onOpenSettings}
-            className="flex items-center gap-1.5 h-[42px] px-3.5 rounded-full bg-white border border-[#D1D5DB] hover:border-[#14181F] text-xs font-semibold text-[#14181F] transition-all hover:bg-[#F8FAFC]"
-            title="Model Config & API Keys"
+            className="flex items-center gap-1.5 h-[42px] px-3.5 rounded-full bg-white dark:bg-[#1E293B] border border-[#D1D5DB] dark:border-[#334155] hover:border-[#14181F] text-xs font-semibold text-[#14181F] dark:text-white transition-all hover:bg-[#F8FAFC]"
+            title="Model Config, Themes, Fonts & Languages"
           >
-            <Sliders className="w-4 h-4 text-[#6B7280]" />
-            <span className="hidden md:inline">Config</span>
+            <Sliders className="w-4 h-4 text-[#6B7280] dark:text-gray-300" />
+            <span className="hidden md:inline">{t('config')}</span>
           </button>
 
           {/* Launch / Abort Action Pill */}
