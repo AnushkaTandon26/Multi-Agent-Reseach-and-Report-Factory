@@ -1132,3 +1132,6 @@ export class ResearchOrchestrator {
     return revisedReport;
   }
 }
+
+// Max replan loop limit constant for multi-agent reasoning verification
+export const MAX_REPLAN_CYCLES = 3;
