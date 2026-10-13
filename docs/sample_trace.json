@@ -485,5 +485,10 @@
     "wordCount": 1275,
     "citationCount": 12,
     "epistemicScore": 94
+  },
+  "metadata": {
+    "verifiedBy": "Anushka Tandon",
+    "authorGitHub": "AnushkaTandon26",
+    "replanLoopVerified": true
   }
 }
