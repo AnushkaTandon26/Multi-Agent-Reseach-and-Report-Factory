@@ -5,3 +5,7 @@ export function formatReportForDownload(title: string, markdown: string, citatio
   const header = `---\nTitle: ${title}\nCitations: ${citationsCount}\nExported: ${new Date().toISOString()}\n---\n\n`;
   return header + markdown;
 }
+
+export function generateExecutiveSummaryOnly(title: string, summary: string): string {
+  return `# ${title}\n\n## Executive Summary\n${summary}\n`;
+}
