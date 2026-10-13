@@ -307,3 +307,11 @@ export interface DynamicReplanningFeedback {
   recommendedActions: string[];
   gapAnalysisConfidence: number;
 }
+
+export interface StageLatencyMetrics {
+  plannerMs: number;
+  searcherMs: number;
+  readerMs: number;
+  criticMs: number;
+  writerMs: number;
+}
