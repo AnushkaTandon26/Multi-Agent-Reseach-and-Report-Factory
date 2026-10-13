@@ -326,3 +326,6 @@ Return ONLY valid JSON.
     };
   }
 }
+
+// Telemetry hook for dynamic replanning feedback score threshold
+export const REPLAN_CONFIDENCE_BENCHMARK = 80;
