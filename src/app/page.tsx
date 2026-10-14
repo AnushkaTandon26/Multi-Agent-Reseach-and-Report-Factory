@@ -449,9 +449,6 @@ export default function HomePage() {
 
       {/* Left Collapsible Workspace Drawer */}
       <Sidebar
-        currentView={currentView}
-        setCurrentView={setCurrentView}
-        state={workflowState}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenPresets={() => setIsPresetsOpen(true)}
         onOpenLibrary={() => setIsLibraryOpen(true)}

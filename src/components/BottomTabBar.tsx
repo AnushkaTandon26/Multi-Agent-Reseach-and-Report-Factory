@@ -85,9 +85,14 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
   return (
     <nav
       aria-label="Main Agent Navigation"
-      className="flex md:hidden fixed bottom-0 left-0 right-0 z-30 liquid-glass !rounded-none border-t border-[rgba(255,255,255,0.08)] px-2 py-1.5 items-center justify-center no-print"
+```tsx
+    <nav
+      aria-label="Main Agent Navigation"
+      className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-[#E5E7EB] shadow-[0_-2px_12px_rgba(16,24,40,0.04)] px-1 py-1 flex md:hidden items-center justify-center no-print"
     >
-      <div className="flex items-center justify-between sm:justify-center gap-1 sm:gap-2 max-w-4xl w-full overflow-x-auto">
+```
+    >
+      <div className="flex items-center justify-between gap-0.5 w-full overflow-hidden">
         {tabs.map((tab) => {
           const isActive = currentView === tab.id;
           const agent = tab.agentId ? state.agents[tab.agentId] : undefined;
@@ -97,7 +102,7 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
             <button
               key={tab.id}
               onClick={() => setCurrentView(tab.id)}
-              className={`flex flex-col items-center justify-center py-1.5 px-3 sm:px-5 rounded-xl transition-all relative shrink-0 ${
+              className={`flex min-w-0 flex-1 flex-col items-center justify-center py-1.5 px-0.5 rounded-xl transition-all relative ${
                 isActive
                   ? 'bg-[#151A17] text-white shadow-sm'
                   : 'text-[#6B7280] hover:text-[#14181F] hover:bg-[#F1F2F4]'
@@ -107,7 +112,7 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
                 <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-amber-500 animate-ping" />
               )}
               <div className="mb-0.5">{tab.icon(isActive)}</div>
-              <span className={`text-[11px] font-medium tracking-tight ${isActive ? 'text-white font-semibold' : 'text-[#6B7280]'}`}>
+              <span className={`max-w-full truncate text-[9px] font-medium tracking-tight ${isActive ? 'text-white font-semibold' : 'text-[#6B7280]'}`}>
                 {tab.label}
               </span>
             </button>

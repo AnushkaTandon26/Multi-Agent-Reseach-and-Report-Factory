@@ -227,8 +227,57 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
-      {/* 2. Command Bar (Clean Floating Frosted Glass) */}
-      <div className="px-4 sm:px-6 py-2.5 bg-[rgba(255,255,255,0.02)] backdrop-blur-xl border-b border-[rgba(255,255,255,0.08)]">
+```tsx
+      {/* 2. Desktop Navigation */}
+      <div className="hidden md:flex h-[46px] bg-[#F1F2F4] px-4 sm:px-6 items-center justify-between border-b border-[#E5E7EB] overflow-x-auto text-xs">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[#6B7280] font-semibold text-[11px] uppercase tracking-wider mr-1 hidden sm:inline">
+            Views:
+          </span>
+          {viewOptions.map((v) => {
+            const isSelected = currentView === v.id;
+
+            return (
+              <button
+                key={v.id}
+                type="button"
+                onClick={() => setCurrentView(v.id)}
+                aria-current={isSelected ? 'page' : undefined}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all shrink-0 ${
+                  isSelected
+                    ? 'bg-white text-[#14181F] font-bold shadow-xs border border-[#E5E7EB]'
+                    : 'text-[#4B5563] hover:text-[#14181F] hover:bg-white/60 font-medium'
+                }`}
+              >
+                {v.icon}
+                <span>{v.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="hidden lg:flex items-center gap-3 text-xs text-[#6B7280]">
+          {state.topic && (
+            <span className="truncate max-w-xs font-medium text-[#14181F]">
+              Topic: <em>&ldquo;{state.topic}&rdquo;</em>
+            </span>
+          )}
+
+          {state.report && (
+            <button
+              type="button"
+              onClick={() => setCurrentView('report')}
+              className="text-[#2563EB] hover:underline font-semibold flex items-center gap-1"
+            >
+              Read Whitepaper &rarr;
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* 3. Research Command Bar */}
+      <div className="px-4 sm:px-6 py-3 bg-white border-b border-[#E5E7EB]">
+```
         <form onSubmit={handleSubmit} className="flex flex-wrap lg:flex-nowrap items-center gap-2.5 w-full">
           {/* Wide Pill Topic Input */}
           <div className="relative flex-1 min-w-[280px]">
