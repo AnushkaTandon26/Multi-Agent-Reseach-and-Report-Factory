@@ -65,9 +65,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <label className="font-semibold flex items-center gap-1.5">
               <span>{t('theme')} Mode</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
               {[
-                { id: 'light', label: '☀️ Light Clean', bg: 'bg-white text-gray-800 border-gray-300' },
+                { id: 'liquid-glass', label: '🧊 Liquid Glass', bg: 'bg-[#1C2155]/80 backdrop-blur-md text-white border border-[#8CA0FF]/50 shadow-[0_4px_20px_rgba(123,97,255,0.4)] font-bold' },
+                { id: 'claymorphism', label: '🧸 Claymorphism', bg: 'bg-[#818CF8]/30 backdrop-blur-md text-white border border-white/40 shadow-[inset_0_4px_8px_rgba(255,255,255,0.4),0_8px_20px_rgba(0,0,0,0.3)] font-bold' },
+                { id: 'synthwave', label: '🌆 Synthwave', bg: 'bg-[#2E0854] text-[#FF71CE] border border-[#FF71CE]/60 shadow-[0_0_15px_rgba(255,113,206,0.3)] font-bold' },
+                { id: 'cyberpunk', label: '⚡ Cyberpunk', bg: 'bg-[#0B0C10] text-[#00F0FF] border border-[#FFE600]/80 shadow-[0_0_15px_rgba(0,240,255,0.3)] font-bold' },
+                { id: 'light', label: '☀️ Minimal Light', bg: 'bg-white text-gray-800 border-gray-300' },
                 { id: 'dark', label: '🌙 Dark Pro', bg: 'bg-[#141C2E] text-white border-blue-900' },
                 { id: 'midnight', label: '🌌 Midnight', bg: 'bg-[#030712] text-cyan-300 border-cyan-900' },
                 { id: 'sepia', label: '📜 Warm Sepia', bg: 'bg-[#FDFBF7] text-amber-950 border-amber-300' },

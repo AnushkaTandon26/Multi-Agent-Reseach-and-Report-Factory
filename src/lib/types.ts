@@ -192,6 +192,10 @@ export interface ReplanLoopRecord {
   reason: string;
   timestamp: number;
   details?: string;
+  queryBefore?: string[];
+  queryAfter?: string[];
+  scoreBefore?: number;
+  scoreAfter?: number;
 }
 
 // -------------------------------------------------------------

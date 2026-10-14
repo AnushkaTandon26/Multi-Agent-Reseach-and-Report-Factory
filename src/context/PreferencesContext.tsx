@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type AppTheme = 'light' | 'dark' | 'sepia' | 'midnight';
+export type AppTheme = 'light' | 'dark' | 'sepia' | 'midnight' | 'maximalism' | 'liquid-glass' | 'claymorphism' | 'synthwave' | 'cyberpunk';
 export type AppFont = 'inter' | 'serif' | 'mono' | 'lexend' | 'playfair';
 export type AppLanguage = 'en' | 'es' | 'fr' | 'de' | 'hi' | 'zh' | 'ja';
 
@@ -219,7 +219,7 @@ const PreferencesContext = createContext<PreferencesContextType>({
 });
 
 export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<AppTheme>('light');
+  const [theme, setThemeState] = useState<AppTheme>('liquid-glass');
   const [font, setFontState] = useState<AppFont>('inter');
   const [language, setLanguageState] = useState<AppLanguage>('en');
 
@@ -227,7 +227,20 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const savedTheme = localStorage.getItem('rf_theme') as AppTheme;
     const savedFont = localStorage.getItem('rf_font') as AppFont;
     const savedLang = localStorage.getItem('rf_lang') as AppLanguage;
-    if (savedTheme) setThemeState(savedTheme);
+    if (savedTheme) {
+      setThemeState(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (savedTheme === 'dark' || savedTheme === 'midnight' || savedTheme === 'liquid-glass' || savedTheme === 'maximalism' || savedTheme === 'synthwave' || savedTheme === 'cyberpunk') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } else {
+      setThemeState('liquid-glass');
+      localStorage.setItem('rf_theme', 'liquid-glass');
+      document.documentElement.setAttribute('data-theme', 'liquid-glass');
+      document.documentElement.classList.add('dark');
+    }
     if (savedFont) setFontState(savedFont);
     if (savedLang) setLanguageState(savedLang);
   }, []);
@@ -236,7 +249,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setThemeState(t);
     localStorage.setItem('rf_theme', t);
     document.documentElement.setAttribute('data-theme', t);
-    if (t === 'dark' || t === 'midnight') {
+    if (t === 'dark' || t === 'midnight' || t === 'liquid-glass' || t === 'maximalism' || t === 'synthwave' || t === 'cyberpunk') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -257,7 +270,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-font', font);
-    if (theme === 'dark' || theme === 'midnight') {
+    if (theme === 'dark' || theme === 'midnight' || theme === 'liquid-glass' || theme === 'maximalism' || theme === 'synthwave' || theme === 'cyberpunk') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
