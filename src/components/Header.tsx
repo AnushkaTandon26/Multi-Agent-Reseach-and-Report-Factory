@@ -211,7 +211,7 @@ export const Header: React.FC<HeaderProps> = ({
       </header>
 
       {/* 2. Light-Gray (#F1F2F4) Sub-Bar with Breadcrumbs / View Switcher */}
-      <div className="h-[46px] bg-[#F1F2F4] px-4 sm:px-6 flex items-center justify-between border-b border-[#E5E7EB] overflow-x-auto text-xs">
+      <div className="hidden md:flex h-[46px] bg-[#F1F2F4] px-4 sm:px-6 items-center justify-between border-b border-[#E5E7EB] overflow-x-auto text-xs">
         <div className="flex items-center gap-1.5">
           <span className="text-[#6B7280] font-semibold text-[11px] uppercase tracking-wider mr-1 hidden sm:inline">
             Views:

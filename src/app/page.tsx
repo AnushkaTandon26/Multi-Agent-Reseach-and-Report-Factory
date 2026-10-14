@@ -429,9 +429,6 @@ export default function HomePage() {
     <div className="min-h-screen flex bg-white text-[#14181F] font-sans antialiased">
       {/* Left Collapsible Workspace Drawer */}
       <Sidebar
-        currentView={currentView}
-        setCurrentView={setCurrentView}
-        state={workflowState}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenPresets={() => setIsPresetsOpen(true)}
         onOpenLibrary={() => setIsLibraryOpen(true)}

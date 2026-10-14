@@ -2,29 +2,17 @@
 
 import React, { useState } from 'react';
 import {
-  LayoutDashboard,
-  Compass,
-  Search,
-  BookOpen,
-  ShieldCheck,
-  PenTool,
-  Terminal,
   Sliders,
   Sparkles,
   ChevronRight,
   ChevronLeft,
   Bookmark,
   UploadCloud,
-  FileText,
 } from 'lucide-react';
-import { ResearchWorkflowState, AgentType } from '../lib/types';
 
 export type NavView = 'floor' | 'planner' | 'searcher' | 'reader' | 'critic' | 'report' | 'logs';
 
 interface SidebarProps {
-  currentView: NavView;
-  setCurrentView: (view: NavView) => void;
-  state: ResearchWorkflowState;
   onOpenSettings: () => void;
   onOpenPresets: () => void;
   onOpenLibrary: () => void;
@@ -32,59 +20,12 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
-  currentView,
-  setCurrentView,
-  state,
   onOpenSettings,
   onOpenPresets,
   onOpenLibrary,
   onOpenUploader,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true); // default collapsed to prioritize top & bottom nav
-  const isRunning = state.status === 'running';
-
-  const navItems = [
-    {
-      id: 'floor' as NavView,
-      label: 'Overview',
-      icon: <LayoutDashboard className="w-4 h-4 text-[#14181F]" />,
-    },
-    {
-      id: 'planner' as NavView,
-      agentId: 'planner' as AgentType,
-      label: '1. Planner',
-      icon: <Compass className="w-4 h-4 text-[#6366F1]" />,
-    },
-    {
-      id: 'searcher' as NavView,
-      agentId: 'searcher' as AgentType,
-      label: '2. Scout',
-      icon: <Search className="w-4 h-4 text-[#06B6D4]" />,
-    },
-    {
-      id: 'reader' as NavView,
-      agentId: 'reader' as AgentType,
-      label: '3. Reader',
-      icon: <BookOpen className="w-4 h-4 text-[#F59E0B]" />,
-    },
-    {
-      id: 'critic' as NavView,
-      agentId: 'critic' as AgentType,
-      label: '4. Critic',
-      icon: <ShieldCheck className="w-4 h-4 text-[#EF4444]" />,
-    },
-    {
-      id: 'report' as NavView,
-      agentId: 'writer' as AgentType,
-      label: '5. Synthesizer',
-      icon: <PenTool className="w-4 h-4 text-[#A855F7]" />,
-    },
-    {
-      id: 'logs' as NavView,
-      label: 'Message Bus Logs',
-      icon: <Terminal className="w-4 h-4 text-[#4B5563]" />,
-    },
-  ];
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
     <aside
@@ -131,35 +72,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      {/* Navigation Items */}
+      {/* Workspace Tools */}
       <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-        {navItems.map((item) => {
-          const isSelected = currentView === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setCurrentView(item.id)}
-              title={isCollapsed ? item.label : undefined}
-              className={`w-full flex items-center ${
-                isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
-              } rounded-xl text-left transition-all ${
-                isSelected
-                  ? 'bg-[#151A17] text-white shadow-xs font-semibold'
-                  : 'text-[#4B5563] hover:text-[#14181F] hover:bg-[#F1F2F4]'
-              }`}
-            >
-              <div className="shrink-0">{item.icon}</div>
-              {!isCollapsed && (
-                <span className="text-xs truncate">{item.label}</span>
-              )}
-            </button>
-          );
-        })}
-
-        {/* Divider */}
-        <div className="my-2 border-t border-[#E5E7EB]" />
-
-        {/* Workspace Tools */}
         <button
           onClick={onOpenUploader}
           title={isCollapsed ? 'BYOD File Vault' : undefined}
