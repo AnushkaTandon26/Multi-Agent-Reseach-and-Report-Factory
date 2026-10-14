@@ -1,7 +1,11 @@
 ================================================================================
 OUTPUT DEFINITION SPECIFICATION: MULTI-AGENT RESEARCH & REPORT FACTORY
 Exam Studio Track: Advanced Agentic Coding & Autonomous Multi-Agent Workflows
-Author: Anushka Tandon (@AnushkaTandon26)
+Team Members:
+  - Anushka Tandon (23070122262) - Project Lead / Multi-Agent Architecture
+  - Jyoti Kumari Sah (23070122278) - Epistemic Verification & Critic Engine
+  - Muskan Shah (23070122279) - Literature Scout & Vector Retrieval Tools
+  - Lauriane Lenge Wa Mpitshi (23070122260) - Reader Agent & Data Pipeline
 Repository: https://github.com/AnushkaTandon26/Multi-Agent-Reseach-and-Report-Factory
 ================================================================================
 
