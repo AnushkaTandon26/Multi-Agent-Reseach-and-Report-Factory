@@ -37,6 +37,7 @@ export const SearcherView: React.FC<SearcherViewProps> = ({
   const [customTitle, setCustomTitle] = useState('');
   const [customUrl, setCustomUrl] = useState('');
   const [isAddingSource, setIsAddingSource] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const uniqueDomains = Array.from(new Set(sources.map((s) => s.domain)));
 
@@ -55,18 +56,26 @@ export const SearcherView: React.FC<SearcherViewProps> = ({
     if (!customTitle.trim() || !onAddCustomSource) return;
 
     let domain = 'custom-source.org';
-    try {
-      if (customUrl.trim()) {
-        domain = new URL(customUrl).hostname.replace(/^www\./, '');
+    const normalizedUrl = customUrl.trim();
+    if (normalizedUrl) {
+      try {
+        const parsedUrl = new URL(normalizedUrl);
+        if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+          setFormError('Source URL must begin with http:// or https://.');
+          return;
+        }
+        domain = parsedUrl.hostname.replace(/^www\./, '');
+      } catch {
+        setFormError('Enter a valid URL beginning with http:// or https://.');
+        return;
       }
-    } catch {
-      // default domain
     }
 
+    setFormError('');
     onAddCustomSource({
       id: `src-user-${Date.now()}`,
       title: customTitle.trim(),
-      url: customUrl.trim() || '#',
+      url: normalizedUrl || '#',
       domain,
       snippet: `User injected custom research source for targeted analysis: "${customTitle.trim()}".`,
       publishDate: new Date().toISOString().split('T')[0],
@@ -136,6 +145,8 @@ export const SearcherView: React.FC<SearcherViewProps> = ({
             <input
               type="text"
               value={customTitle}
+              aria-label="Source title"
+              required
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="Article / Whitepaper Title (e.g. 'Nature Solid-State Energy Density Report 2025')"
               className="bg-white px-3.5 py-2.5 rounded-full border border-[#D1D5DB] text-xs text-[#14181F] placeholder-[#9CA3AF] focus:border-[#14181F] focus:outline-none"
@@ -143,11 +154,22 @@ export const SearcherView: React.FC<SearcherViewProps> = ({
             <input
               type="text"
               value={customUrl}
-              onChange={(e) => setCustomUrl(e.target.value)}
+              aria-label="Source URL (optional)"
+              aria-invalid={Boolean(formError)}
+              aria-describedby={formError ? 'source-url-error' : undefined}
+              onChange={(e) => {
+                setCustomUrl(e.target.value);
+                setFormError('');
+              }}
               placeholder="URL (e.g. 'https://nature.com/articles/s41586-2025')"
               className="bg-white px-3.5 py-2.5 rounded-full border border-[#D1D5DB] text-xs text-[#14181F] placeholder-[#9CA3AF] focus:border-[#14181F] focus:outline-none"
             />
           </div>
+          {formError && (
+            <p id="source-url-error" role="alert" className="text-xs text-rose-600">
+              {formError}
+            </p>
+          )}
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
