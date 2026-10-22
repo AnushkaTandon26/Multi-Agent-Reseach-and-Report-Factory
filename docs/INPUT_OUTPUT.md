@@ -121,6 +121,15 @@ Minimal input:
 
 ## 2. System Output Definition
 
+### Reading the Output
+
+- `workflow` records the topic, run status, timing, and replan count.
+- `plan` contains the research objectives, questions, hypotheses, and proposed sections.
+- `sources` and `facts` hold the collected references and extracted evidence.
+- `criticReview` summarizes evidence quality, including the credibility score and review decision.
+- `report` contains the generated report and related presentation material.
+- `trace` records the chronological interactions between agents and tools.
+
 ### 2.1 JSON Schema
 ```json
 {
