@@ -33,6 +33,15 @@ describe('AgentStatePanel', () => {
     expect(markup).toContain('animate-spin');
   });
 
+  it('sets expectations when a running stage has no task detail', () => {
+    const markup = renderPanel({ status: 'running' });
+
+    expect(markup).toContain('This may take a few moments.');
+    expect(markup).toContain('Results will appear here as Strategic Planner works.');
+    expect(markup).toContain('aria-live="polite"');
+    expect(markup).toContain('aria-busy="true"');
+  });
+
   it('identifies a stage that is waiting for upstream research', () => {
     const markup = renderPanel({ workflowStatus: 'running' });
 

@@ -51,7 +51,7 @@ export const AgentStatePanel: React.FC<AgentStatePanelProps> = ({
       ? `${errorMessage} Check the Message Bus Logs for details, then retry the research run.`
       : 'Review the Message Bus Logs for details, then retry the research run.'
     : isRunning
-      ? currentTask || `Results will appear here as ${stageName} works.`
+      ? currentTask || `This may take a few moments. Results will appear here as ${stageName} works.`
       : effectiveStatus === 'waiting'
         ? 'This stage will begin when its upstream research is ready.'
         : effectiveStatus === 'completed'
