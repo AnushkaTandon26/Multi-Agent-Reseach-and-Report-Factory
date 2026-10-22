@@ -42,6 +42,21 @@ git commit -m "docs: describe your change"
 git push -u origin docs/describe-your-change
 ```
 
+## Check your changes
+
+For code changes, install dependencies with `npm install`, then run the automated tests and linter:
+
+```bash
+npm test
+npm run lint
+```
+
+For documentation-only changes, check the diff for whitespace errors:
+
+```bash
+git diff --check
+```
+
 ## Open a pull request
 
 On GitHub, open a pull request from your fork branch to this repository's `main` branch. Review the base repository and branch before submitting. Keep each pull request focused on one change, and never include API keys or other secrets in commits.
