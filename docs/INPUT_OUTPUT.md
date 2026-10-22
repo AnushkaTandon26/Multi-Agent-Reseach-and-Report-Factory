@@ -1,6 +1,6 @@
 # Research Factory: Input & Output Definitions
 
-This document details the exact JSON schemas and real-world sample payloads for both system inputs and system outputs.
+This document describes the research request data model and the final workflow output model, with sample payloads.
 
 ---
 
@@ -37,7 +37,7 @@ Minimal input:
     "topic": {
       "type": "string",
       "description": "Primary research thesis, technological domain, or question to investigate.",
-      "minLength": 3
+      "minLength": 1
     },
     "depth": {
       "type": "string",
@@ -55,7 +55,7 @@ Minimal input:
       "type": "string",
       "enum": ["all", "academic", "financial", "medical"],
       "default": "all",
-      "description": "Domain filtering for search probes."
+      "description": "Requested source domain category. The current search backend does not yet enforce domain filtering."
     },
     "redTeamMode": {
       "type": "boolean",
@@ -68,7 +68,7 @@ Minimal input:
     },
     "customDocuments": {
       "type": "array",
-      "description": "BYOD user-uploaded internal documents (PDF/TXT/MD) to ingest alongside web sources.",
+      "description": "User-uploaded text documents in supported formats (.txt, .md, .csv, or .json) to ingest alongside search results. PDF text extraction is not supported.",
       "items": {
         "type": "object",
         "properties": {
@@ -83,7 +83,7 @@ Minimal input:
     },
     "apiKey": {
       "type": "string",
-      "description": "Optional Gemini API key. If omitted, uses server environment key or deterministic heuristic engine."
+      "description": "Optional Gemini API key. If omitted, the server environment key may be used; otherwise generation can fall back to local deterministic reasoning."
     },
     "modelName": {
       "type": "string",
@@ -120,6 +120,8 @@ Minimal input:
 ---
 
 ## 2. System Output Definition
+
+The `/api/research` endpoint streams Server-Sent Events (SSE); it does not return the following schema as one JSON response. The schema and sample below are illustrative summaries, not the exact TypeScript state shape. On successful completion, the `workflow_complete` event contains the report, trace, and final state.
 
 ### Reading the Output
 

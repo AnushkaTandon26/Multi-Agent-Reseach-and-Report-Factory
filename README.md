@@ -130,8 +130,12 @@ Relevant docs are located in the `docs/` directory:
 - `docs/DESIGN.md`
 - `docs/INPUT_OUTPUT.md`
 - `docs/presentation-notes.md`
+- `docs/USER_OPERATIONS_GUIDE.md`
 - `docs/sample_trace.md`
 - `docs/sample_trace.json`
+- `docs/CRITIC_FEEDBACK_LOOP.md`
+- `docs/AGENT_INTERACTION_MATRIX.md`
+- `docs/VERCEL_DEPLOYMENT.md`
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for the fork, branch, and pull request workflow.
 
