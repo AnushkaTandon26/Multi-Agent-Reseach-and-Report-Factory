@@ -484,7 +484,7 @@ export default function HomePage() {
         />
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 xl:p-10 w-full space-y-6 pb-28">
+        <main className="min-w-0 flex-1 p-3 sm:p-6 lg:p-8 xl:p-10 w-full space-y-5 sm:space-y-6 pb-28">
           {workflowState.status === 'error' && (
             <div className="p-4 bg-rose-50 border border-rose-300 rounded-2xl flex items-center justify-between gap-3 text-rose-900 shadow-xs">
               <div className="flex items-center gap-3">
