@@ -19,6 +19,14 @@ Only `topic` is required. The remaining fields are optional; when omitted, the s
 
 `customInstructions` can provide additional planning guidance. `customDocuments` can add uploaded material. Gemini options (`apiKey` and `modelName`) are optional; without an API key, the application can use its simulated generation path.
 
+Minimal input:
+
+```json
+{
+  "topic": "How urban trees affect summer temperatures"
+}
+```
+
 ### 1.2 JSON Schema
 ```json
 {
