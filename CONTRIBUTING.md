@@ -18,6 +18,8 @@ Contributions are welcome through pull requests. Work on a feature branch in you
    git remote add upstream https://github.com/AnushkaTandon26/Multi-Agent-Reseach-and-Report-Factory.git
    ```
 
+   If `upstream` already exists, do not add it again. Check the configured remotes with `git remote -v`.
+
 ## Create a branch and make changes
 
 Start from the latest `main` branch and create a descriptive branch for your change:
