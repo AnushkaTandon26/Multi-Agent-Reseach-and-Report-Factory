@@ -90,6 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside
+      aria-label="Workspace sidebar"
       className={`hidden md:flex liquid-glass !rounded-none border-r border-[rgba(255,255,255,0.08)] flex-col h-screen sticky top-0 shrink-0 select-none z-20 transition-all duration-200 no-print ${
         isCollapsed ? 'w-16' : 'w-60'
       }`}
@@ -125,46 +126,57 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          type="button"
+          onClick={() => setIsCollapsed((collapsed) => !collapsed)}
           className="p-1 rounded-full text-[#9AA8D6] hover:text-white hover:bg-[rgba(160,190,255,0.15)] transition-colors"
           title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-expanded={!isCollapsed}
+          aria-controls="workspace-sidebar-content"
         >
           {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
         </button>
       </div>
 
       {/* Navigation Items */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-        {navItems.map((item) => {
-          const isSelected = currentView === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setCurrentView(item.id)}
-              title={isCollapsed ? item.label : undefined}
-              className={`w-full flex items-center ${
-                isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
-              } rounded-xl text-left transition-all ${
-                isSelected
-                  ? 'bg-[rgba(255,255,255,0.12)] border border-[rgba(255,255,255,0.18)] text-[#F5F7FF] font-bold shadow-sm'
-                  : 'text-[rgba(255,255,255,0.7)] hover:text-[#F5F7FF] hover:bg-[rgba(255,255,255,0.06)]'
-              }`}
-            >
-              <div className="shrink-0">{item.icon}</div>
-              {!isCollapsed && (
-                <span className="text-xs truncate">{item.label}</span>
-              )}
-            </button>
-          );
-        })}
+      <div id="workspace-sidebar-content" className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
+        <nav aria-label="Workspace views" className="space-y-1">
+          {navItems.map((item) => {
+            const isSelected = currentView === item.id;
+            return (
+              <button
+                type="button"
+                key={item.id}
+                onClick={() => setCurrentView(item.id)}
+                title={isCollapsed ? item.label : undefined}
+                aria-label={item.label}
+                aria-current={isSelected ? 'page' : undefined}
+                className={`w-full flex items-center ${
+                  isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
+                } rounded-xl text-left transition-all ${
+                  isSelected
+                    ? 'bg-[rgba(255,255,255,0.12)] border border-[rgba(255,255,255,0.18)] text-[#F5F7FF] font-bold shadow-sm'
+                    : 'text-[rgba(255,255,255,0.7)] hover:text-[#F5F7FF] hover:bg-[rgba(255,255,255,0.06)]'
+                }`}
+              >
+                <div className="shrink-0">{item.icon}</div>
+                {!isCollapsed && (
+                  <span className="text-xs truncate">{item.label}</span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
         {/* Divider */}
         <div className="my-2 border-t border-[rgba(160,190,255,0.18)]" />
 
         {/* Workspace Tools */}
         <button
+          type="button"
           onClick={onOpenUploader}
           title={isCollapsed ? t('vault') : undefined}
+          aria-label={t('vault')}
           className={`w-full flex items-center ${
             isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
           } rounded-xl text-[#C5D0F5] hover:text-white hover:bg-[rgba(160,190,255,0.12)] transition-colors`}
@@ -174,8 +186,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
 
         <button
+          type="button"
           onClick={onOpenLibrary}
           title={isCollapsed ? t('archive') : undefined}
+          aria-label={t('archive')}
           className={`w-full flex items-center ${
             isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
           } rounded-xl text-[#C5D0F5] hover:text-white hover:bg-[rgba(160,190,255,0.12)] transition-colors`}
@@ -185,8 +199,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
 
         <button
+          type="button"
           onClick={onOpenPresets}
           title={isCollapsed ? t('presets') : undefined}
+          aria-label={t('presets')}
           className={`w-full flex items-center ${
             isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
           } rounded-xl text-[#C5D0F5] hover:text-white hover:bg-[rgba(160,190,255,0.12)] transition-colors`}
@@ -196,8 +212,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
 
         <button
+          type="button"
           onClick={onOpenSettings}
           title={isCollapsed ? t('config') : undefined}
+          aria-label={t('config')}
           className={`w-full flex items-center ${
             isCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
           } rounded-xl text-[#C5D0F5] hover:text-white hover:bg-[rgba(160,190,255,0.12)] transition-colors`}

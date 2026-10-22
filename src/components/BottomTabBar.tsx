@@ -24,8 +24,6 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
   setCurrentView,
   state,
 }) => {
-  const isRunning = state.status === 'running';
-
   const tabs: {
     id: NavView;
     agentId?: AgentType;
@@ -95,8 +93,11 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
 
           return (
             <button
+              type="button"
               key={tab.id}
               onClick={() => setCurrentView(tab.id)}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={isAgentRunning ? `${tab.label}, agent running` : tab.label}
               className={`flex flex-col items-center justify-center py-1.5 px-3 sm:px-5 rounded-xl transition-all relative shrink-0 ${
                 isActive
                   ? 'bg-[#151A17] text-white shadow-sm'

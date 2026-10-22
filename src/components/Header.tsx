@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { ResearchWorkflowState, ResearchDepth, ReportPersona, SearchScope } from '../lib/types';
 import { NavView } from './Sidebar';
-import { usePreferences } from '../context/PreferencesContext';
+import { AppTheme, usePreferences } from '../context/PreferencesContext';
 
 interface HeaderProps {
   state: ResearchWorkflowState;
@@ -190,6 +190,7 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             className="flex items-center gap-1.5 h-[38px] px-3.5 rounded-full liquid-glass-subtle hover:bg-[rgba(255,255,255,0.08)] text-xs font-semibold text-[#F5F7FF] transition-all border border-[rgba(255,255,255,0.10)]"
             title={`Cycle Theme (Current: ${theme})`}
+            aria-label={`Cycle theme, current theme: ${theme}`}
           >
             {theme === 'light' || theme === 'claymorphism' ? (
               <Sun className="w-3.5 h-3.5 text-amber-300" />
@@ -209,6 +210,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onOpenSettings}
             className="flex items-center gap-1.5 h-[38px] px-3.5 rounded-full liquid-glass-subtle hover:bg-[rgba(255,255,255,0.08)] text-xs font-semibold text-[#F5F7FF] transition-all border border-[rgba(255,255,255,0.10)]"
             title="Model Config, Themes, Fonts & Languages"
+            aria-label={t('config')}
           >
             <Sliders className="w-3.5 h-3.5 text-[rgba(255,255,255,0.7)]" />
             <span className="hidden md:inline">{t('config')}</span>
@@ -239,6 +241,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="text"
               value={topicInput}
               onChange={(e) => setTopicInput(e.target.value)}
+              aria-label="Research topic"
               placeholder="Enter complex research topic, thesis, or technical domain..."
               disabled={isRunning}
               className="w-full h-[42px] pl-10 pr-24 rounded-xl border border-[rgba(255,255,255,0.10)] focus:border-[#7C5CFF] focus:ring-1 focus:ring-[#7C5CFF]/40 text-xs sm:text-sm text-[#F5F7FF] placeholder-[rgba(255,255,255,0.40)] transition-all bg-[rgba(255,255,255,0.04)] backdrop-blur-md disabled:opacity-50"
@@ -259,6 +262,7 @@ export const Header: React.FC<HeaderProps> = ({
               value={persona}
               onChange={(e) => setPersona(e.target.value as ReportPersona)}
               disabled={isRunning}
+              aria-label="Report persona"
               className="h-[42px] appearance-none pl-3.5 pr-8 rounded-xl border border-[rgba(255,255,255,0.10)] focus:border-[#7C5CFF] bg-[rgba(255,255,255,0.04)] text-xs font-medium text-[#F5F7FF] hover:bg-[rgba(255,255,255,0.08)] transition-colors cursor-pointer"
             >
               <option value="executive" className="bg-[#0B0D1A] text-[#F5F7FF]">👔 Executive Brief</option>
@@ -275,6 +279,7 @@ export const Header: React.FC<HeaderProps> = ({
               value={depth}
               onChange={(e) => setDepth(e.target.value as ResearchDepth)}
               disabled={isRunning}
+              aria-label="Research depth"
               className="h-[42px] appearance-none pl-3.5 pr-8 rounded-xl border border-[rgba(255,255,255,0.10)] focus:border-[#7C5CFF] bg-[rgba(255,255,255,0.04)] text-xs font-medium text-[#F5F7FF] hover:bg-[rgba(255,255,255,0.08)] transition-colors cursor-pointer capitalize"
             >
               <option value="quick" className="bg-[#0B0D1A] text-[#F5F7FF]">⚡ Quick (4 Sources)</option>
@@ -289,6 +294,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={() => setRedTeamMode(!redTeamMode)}
             disabled={isRunning}
+            aria-pressed={redTeamMode}
             className={`flex items-center gap-1.5 h-[42px] px-3.5 rounded-xl border text-xs font-medium transition-all shrink-0 ${
               redTeamMode
                 ? 'bg-rose-500/20 border-rose-400/40 text-rose-200 shadow-[0_0_12px_rgba(244,63,94,0.25)]'
