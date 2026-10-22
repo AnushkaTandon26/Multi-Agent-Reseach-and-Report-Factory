@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import { BookOpen, Quote, Sparkles, Filter, CheckCircle2, Trash2, Plus } from 'lucide-react';
-import { ExtractedFact, AgentInfo } from '../../lib/types';
+import { ExtractedFact, AgentInfo, ResearchWorkflowState } from '../../lib/types';
+import { AgentStatePanel } from '../AgentStatePanel';
 
 interface ReaderViewProps {
   facts: ExtractedFact[];
   agent: AgentInfo;
+  workflowStatus?: ResearchWorkflowState['status'];
+  workflowError?: string;
   onDeleteFact?: (id: string) => void;
   onAddFact?: (fact: Partial<ExtractedFact>) => void;
 }
@@ -14,6 +17,8 @@ interface ReaderViewProps {
 export const ReaderView: React.FC<ReaderViewProps> = ({
   facts,
   agent,
+  workflowStatus,
+  workflowError,
   onDeleteFact,
   onAddFact,
 }) => {
@@ -146,13 +151,16 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
       )}
 
       {facts.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-[#E5E7EB] p-16 text-center text-[#6B7280] space-y-3 shadow-xs">
-          <BookOpen className="w-12 h-12 mx-auto text-[#F59E0B] animate-pulse" />
-          <h3 className="text-base font-bold text-[#14181F]">Fact Bank Empty</h3>
-          <p className="text-xs text-[#6B7280] max-w-md mx-auto">
-            The Deep Reader agent will ingest literature payloads and extract verified data points as the pipeline progresses.
-          </p>
-        </div>
+        <AgentStatePanel
+          stageName="Deep Reader"
+          outputName="verified facts"
+          status={agent.status}
+          workflowStatus={workflowStatus}
+          icon={<BookOpen className="w-10 h-10 text-[#F59E0B]" aria-hidden="true" />}
+          currentTask={agent.currentTask}
+          errorMessage={workflowError}
+          idleMessage="Verified facts will appear here after the Reader processes the sources found by the Literature Scout."
+        />
       ) : (
         <div className="space-y-4">
           {/* Category Filter Pills */}
