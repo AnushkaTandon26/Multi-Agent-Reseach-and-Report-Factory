@@ -397,7 +397,7 @@ body {
 
 /* Accessible visible focus states */
 *:focus-visible {
-  outline: 2px solid #14181F;
+  outline: 2px solid #7C5CFF;
   outline-offset: 2px;
 }
 
