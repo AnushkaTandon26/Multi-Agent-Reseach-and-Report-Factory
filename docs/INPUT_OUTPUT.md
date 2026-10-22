@@ -6,7 +6,20 @@ This document details the exact JSON schemas and real-world sample payloads for 
 
 ## 1. System Input Definition
 
-### 1.1 JSON Schema
+### 1.1 Quick Reference
+
+Only `topic` is required. The remaining fields are optional; when omitted, the system uses these defaults:
+
+| Field | Accepted values | Default |
+| --- | --- | --- |
+| `depth` | `quick`, `standard`, `deep` | `standard` |
+| `persona` | `executive`, `academic`, `investment`, `technical` | `executive` |
+| `searchScope` | `all`, `academic`, `financial`, `medical` | `all` |
+| `redTeamMode` | `true`, `false` | `false` |
+
+`customInstructions` can provide additional planning guidance. `customDocuments` can add uploaded material. Gemini options (`apiKey` and `modelName`) are optional; without an API key, the application can use its simulated generation path.
+
+### 1.2 JSON Schema
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -74,7 +87,7 @@ This document details the exact JSON schemas and real-world sample payloads for 
 }
 ```
 
-### 1.2 Real Sample Input Payload
+### 1.3 Real Sample Input Payload
 ```json
 {
   "topic": "Commercial Viability of Solid-State Batteries by 2030",
