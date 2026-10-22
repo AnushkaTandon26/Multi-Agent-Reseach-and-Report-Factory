@@ -118,6 +118,10 @@ GEMINI_API_KEY=your_api_key_here
 4. Optionally upload custom documents.
 5. Start the workflow and monitor each agent's progress in real time.
 
+### Custom Document Uploads
+
+For reliable text ingestion, use `.txt`, `.md`, `.csv`, or `.json` files. Although the file picker also accepts `.pdf`, the current uploader reads file contents as text and does not extract PDF text; convert PDF material to a supported text format first.
+
 ## Documentation
 
 Relevant docs are located in the `docs/` directory:
