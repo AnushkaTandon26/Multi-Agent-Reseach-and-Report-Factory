@@ -47,7 +47,9 @@ export const AgentStatePanel: React.FC<AgentStatePanelProps> = ({
           ? `No ${outputName} available`
           : `${outputName} not available yet`;
   const message = isError
-    ? errorMessage || 'Review the Message Bus Logs for details, then retry the research run.'
+    ? errorMessage
+      ? `${errorMessage} Check the Message Bus Logs for details, then retry the research run.`
+      : 'Review the Message Bus Logs for details, then retry the research run.'
     : isRunning
       ? currentTask || `Results will appear here as ${stageName} works.`
       : effectiveStatus === 'waiting'
@@ -60,7 +62,8 @@ export const AgentStatePanel: React.FC<AgentStatePanelProps> = ({
     <section
       role={isError ? 'alert' : 'status'}
       aria-live={isError ? 'assertive' : 'polite'}
-      className={`liquid-glass p-8 sm:p-12 text-center space-y-3 ${className}`}
+      aria-busy={isRunning}
+      className={`liquid-glass p-5 sm:p-12 text-center space-y-3 ${className}`}
     >
       <div className="w-12 h-12 mx-auto flex items-center justify-center">
         {isError ? (
