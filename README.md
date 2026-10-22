@@ -125,6 +125,7 @@ Relevant docs are located in the `docs/` directory:
 - `docs/SYNOPSIS.md`
 - `docs/DESIGN.md`
 - `docs/INPUT_OUTPUT.md`
+- `docs/presentation-notes.md`
 - `docs/sample_trace.md`
 - `docs/sample_trace.json`
 
