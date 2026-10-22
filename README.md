@@ -129,6 +129,8 @@ Relevant docs are located in the `docs/` directory:
 - `docs/sample_trace.md`
 - `docs/sample_trace.json`
 
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the fork, branch, and pull request workflow.
+
 ## Docker
 
 ```bash
