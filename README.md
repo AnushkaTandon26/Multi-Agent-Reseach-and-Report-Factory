@@ -118,6 +118,10 @@ GEMINI_API_KEY=your_api_key_here
 4. Optionally upload custom documents.
 5. Start the workflow and monitor each agent's progress in real time.
 
+### Custom Document Uploads
+
+For reliable text ingestion, use `.txt`, `.md`, `.csv`, or `.json` files. Although the file picker also accepts `.pdf`, the current uploader reads file contents as text and does not extract PDF text; convert PDF material to a supported text format first.
+
 ## Documentation
 
 Relevant docs are located in the `docs/` directory:
@@ -125,8 +129,15 @@ Relevant docs are located in the `docs/` directory:
 - `docs/SYNOPSIS.md`
 - `docs/DESIGN.md`
 - `docs/INPUT_OUTPUT.md`
+- `docs/presentation-notes.md`
+- `docs/USER_OPERATIONS_GUIDE.md`
 - `docs/sample_trace.md`
 - `docs/sample_trace.json`
+- `docs/CRITIC_FEEDBACK_LOOP.md`
+- `docs/AGENT_INTERACTION_MATRIX.md`
+- `docs/VERCEL_DEPLOYMENT.md`
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the fork, branch, and pull request workflow.
 
 ## Docker
 
