@@ -69,46 +69,33 @@ The app includes both an interactive dashboard and an orchestration layer that c
 
 1. Install dependencies:
 
-```bash
 npm install
-```
 
 2. Start the local development server:
 
-```bash
 npm run dev
-```
 
 3. Open the app in your browser:
 
-```text
 http://localhost:3000
-```
 
 ## Production Build
 
-```bash
 npm run build
 npm run start
-```
 
 ## Available Scripts
-
-```bash
 npm run dev      # start the development server
 npm run build    # create a production build
 npm run start    # run the production build locally
 npm run lint     # lint the app
 npm test         # run the test suite
-```
 
 ## Environment Variables
 
 This project can run in simulated mode without any API keys. To enable live Gemini generation, create a `.env.local` file and add:
 
-```env
 GEMINI_API_KEY=your_api_key_here
-```
 
 ## How to Use
 
@@ -129,11 +116,8 @@ Relevant docs are located in the `docs/` directory:
 - `docs/sample_trace.json`
 
 ## Docker
-
-```bash
 docker build -t research-factory:latest .
 docker run -p 3000:3000 research-factory:latest
-```
 
 ## Notes
 
