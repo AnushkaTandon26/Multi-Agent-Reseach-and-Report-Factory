@@ -14,7 +14,7 @@ This project simulates a research lab where multiple specialized agents collabor
 
 The app includes both an interactive dashboard and an orchestration layer that can run in simulated mode or with an optional live Gemini API connection.
 
-## Key Features
+# Key Features
 
 - Topic-driven research workflow with adjustable depth and persona
 - Multi-agent live dashboard with status, task progress, and workflow events
@@ -26,7 +26,6 @@ The app includes both an interactive dashboard and an orchestration layer that c
 - Vitest-based automated testing
 
 ## Tech Stack
-
 - Next.js 14
 - React 18
 - TypeScript
@@ -69,28 +68,18 @@ The app includes both an interactive dashboard and an orchestration layer that c
 
 1. Install dependencies:
 
-```bash
 npm install
-```
+
 
 2. Start the local development server:
-
-```bash
 npm run dev
-```
 
 3. Open the app in your browser:
-
-```text
 http://localhost:3000
-```
 
 ## Production Build
-
-```bash
 npm run build
 npm run start
-```
 
 ## Available Scripts
 
